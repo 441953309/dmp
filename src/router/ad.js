@@ -16,38 +16,6 @@ client.on("error", function (error) {
   console.error(error);
 });
 
-export async function getAdJS(ctx) {
-  if (!mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);//判断id是否正确
-  const adGroup = await AdGroup.findById(ctx.params.group_id);
-  if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
-
-  const cnzz_id = adGroup.cnzz_id || '1260235570';
-
-  let data;
-  if (ctx.params.group_id == '57d550896313fd1b05a2ccab') {
-    data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_top.js'), "utf-8");
-  } else if (ctx.params.group_id == '57d550726313fd1b05a2ccaa') {
-    data = fs.readFileSync(path.join(__dirname, '../../file/script_banner2.js'), "utf-8");
-  } else {
-    data = fs.readFileSync(path.join(__dirname, '../../file/script_banner.js'), "utf-8");
-  }
-
-  ctx.body = data.replace('group_group', ctx.params.group_id).replace(/group_cnzz_id/g, cnzz_id);
-  // ctx.body = UglifyJS.minify(data.replace('group_group', ctx.params.group_id), {fromString: true}).code;
-}
-export async function getAdJS2(ctx) {
-  if (!mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);//判断id是否正确
-  const adGroup = await AdGroup.findById(ctx.params.group_id);
-  if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
-
-  const cnzz_id = adGroup.cnzz_id || '1260235570';
-
-  let data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_iframe.js'), "utf-8");
-
-  ctx.body = data.replace('group_group', ctx.params.group_id).replace(/group_cnzz_id/g, cnzz_id);
-  // ctx.body = UglifyJS.minify(data.replace('group_group', ctx.params.group_id), {fromString: true}).code;
-}
-
 export async function getAdDemo(ctx) {
   const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
   const type = types.indexOf(ctx.params.type);
@@ -76,7 +44,7 @@ export async function getAdDemo(ctx) {
 
 export async function getCnzzHtml(ctx) {
   const cnzz_id = ctx.params.cnzz_id || '1260235570';
-  const data = fs.readFileSync(path.join(__dirname, '../../file/cnzz.html'), "utf-8");
+  const data = fs.readFileSync(path.join(__dirname, '../file/cnzz.html'), "utf-8");
   ctx.body = data.replace(/group_cnzz_id/g, cnzz_id);
 }
 
@@ -95,26 +63,26 @@ export async function getAdScript(ctx) {
   switch (type) {
     case 0:
       if (group_id == '57d550726313fd1b05a2ccaa') {
-        data = fs.readFileSync(path.join(__dirname, '../../file/script_banner2.js'), "utf-8");
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner2.js'), "utf-8");
       } else {
-        data = fs.readFileSync(path.join(__dirname, '../../file/script_banner.js'), "utf-8");
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       }
       break;
     case 1:
-      data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_top.js'), "utf-8");
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner_top.js'), "utf-8");
       break;
     case 2:
       if (group_id == '57e54b38371b484c3d9c5856') {
-        data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_inline_60.js'), "utf-8");
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner_inline_60.js'), "utf-8");
       } else {
-        data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_inline.js'), "utf-8");
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner_inline.js'), "utf-8");
       }
       break;
     case 3:
-      data = fs.readFileSync(path.join(__dirname, '../../file/script_banner_mini.js'), "utf-8");
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner_mini.js'), "utf-8");
       break;
     default:
-      data = fs.readFileSync(path.join(__dirname, '../../file/script_banner.js'), "utf-8");
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       break;
   }
   ctx.body = data.replace('group_group', ctx.params.group_id).replace(/group_cnzz_id/g, cnzz_id);

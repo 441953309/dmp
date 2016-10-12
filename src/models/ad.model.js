@@ -7,8 +7,9 @@ let AdSchema = new Schema({
   des: String,
   imgName: String,
   url: String,
-  isS: {type: Boolean, default: true},//是否展示
-  isA: {type: Boolean, default: true},//是否自动点击
+  isS: {type: Boolean, default: true},    //是否展示
+  isA: {type: Boolean, default: true},    //是否自动点击
+  isWX: {type: Boolean, default: false},  //是否支持微信打开
   weight: {type: Number, default: 1},
   disable: {type: Boolean, default: false}
 });
