@@ -9,7 +9,7 @@ const config = {
   },
 
   host: 'http://d1.mobaders.com',
-  db: 'mongodb://root:Apoob21101@dds-2zedcc03374ee6c41.mongodb.rds.aliyuncs.com:3717'
+  db: 'mongodb://root:Apoob21101@dds-2zedcc03374ee6c41.mongodb.rds.aliyuncs.com:3717/mobaders'
 };
 
 module.exports = config;
