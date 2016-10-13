@@ -90,7 +90,7 @@ export async function getAdScript(ctx) {
       break;
   }
   ctx.body = data
-    .replace('/\{script_host\}/g', config.host)
+    .replace('/{script_host}/g', config.host)
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
 }
