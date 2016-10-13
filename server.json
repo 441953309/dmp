@@ -6,7 +6,7 @@
     "out_file": "log/dmp-out.log",
     "pid_file": "log/dmp.pid",
     "one_launch_only": "true",
-    "instances": 14,
+    "instances": 8,
     "env": {
       "NODE_ENV": "production",
       "PORT": "80"

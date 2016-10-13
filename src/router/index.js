@@ -9,7 +9,6 @@ router.get('/a/:group_id', ad.getAdGroup);        //获取广告内容
 router.get('/j/:type/:group_id/:ad_id', ad.jump); //跳转链接
 
 router.get('/', ctx => {
-  console.log(111);
   ctx.body='123';
 });
 
