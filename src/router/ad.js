@@ -7,6 +7,8 @@ const AdGroup = mongoose.model('AdGroup');
 const ShowRecord = mongoose.model('ShowRecord');
 const ClickRecord = mongoose.model('ClickRecord');
 
+const config = require('../config');
+
 const bluebird = require('bluebird');
 const redis = require('redis');
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -25,21 +27,23 @@ export async function getAdDemo(ctx) {
 
   switch (type) {
     case 0:
-      data = data.replace('demo_type_title', '底部浮层广告位demo');
+      data = data.replace('{demo_type_title}', '底部浮层广告位demo');
       break;
     case 1:
-      data = data.replace('demo_type_title', '顶部浮层广告位demo');
+      data = data.replace('{demo_type_title}', '顶部浮层广告位demo');
       break;
     case 2:
-      data = data.replace('demo_type_title', '嵌入式广告位demo');
+      data = data.replace('{demo_type_title}', '嵌入式广告位demo');
       break;
     case 3:
-      data = data.replace('demo_type_title', '浮标广告位demo');
+      data = data.replace('{demo_type_title}', '浮标广告位demo');
       break;
   }
 
-
-  ctx.body = data.replace('script_type', ctx.params.type).replace('group_group', ctx.params.group_id);
+  ctx.body = data
+    .replace('{script_host}', config.host)
+    .replace('{script_type}', ctx.params.type)
+    .replace('{group_group}', ctx.params.group_id);
 }
 
 export async function getCnzzHtml(ctx) {
