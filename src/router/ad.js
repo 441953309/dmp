@@ -66,11 +66,7 @@ export async function getAdScript(ctx) {
   let data;
   switch (type) {
     case 0:
-      if (group_id == '57d550726313fd1b05a2ccaa') {
-        data = fs.readFileSync(path.join(__dirname, '../file/script_banner2.js'), "utf-8");
-      } else {
-        data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
-      }
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       break;
     case 1:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner_top.js'), "utf-8");
@@ -90,7 +86,7 @@ export async function getAdScript(ctx) {
       break;
   }
   ctx.body = data
-    .replace('/{script_host}/g', config.host)
+    .replace(/\{script_host\}/g, config.host)
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
 }
