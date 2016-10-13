@@ -38,7 +38,7 @@ var ajax = function (conf) {
 };
 //增加cnzz统计
 var cnzz = document.createElement("iframe");
-cnzz.src = "https://www.mobaders.com/cnzz/group_cnzz_id";
+cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
@@ -99,7 +99,7 @@ var doms = [];
 var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
 ajax({
   type: "get",
-  url: "https://www.mobaders.com/a/group_group",
+  url: "{script_host}/a/{group_group}",
   dataType: "json",
   success: function (json) {
     var items = json.items;

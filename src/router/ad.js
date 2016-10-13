@@ -89,7 +89,10 @@ export async function getAdScript(ctx) {
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       break;
   }
-  ctx.body = data.replace('group_group', ctx.params.group_id).replace(/group_cnzz_id/g, cnzz_id);
+  ctx.body = data
+    .replace('/\{script_host\}/g', config.host)
+    .replace('{group_group}', ctx.params.group_id)
+    .replace('{group_cnzz_id}', cnzz_id);
 }
 
 export async function getAdGroup(ctx) {
@@ -112,10 +115,10 @@ export async function getAdGroup(ctx) {
       if (ad.isS) {  //广告显示才需要图片和点击地址
         info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
         info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_m.png`;
-        info.url = `https://www.mobaders.com/j/c/${adGroup.id}/${ad.id}`;
+        info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
       if (ad.isA) {  //广告自动点击才需要自动点击地址
-        info.url1 = `https://www.mobaders.com/j/a/${adGroup.id}/${ad.id}`;
+        info.url1 = `${config.host}/j/a/${adGroup.id}/${ad.id}`;
       }
 
       if (ad.isS || ad.isA) items.push(info);
