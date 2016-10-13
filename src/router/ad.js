@@ -102,6 +102,9 @@ export async function getAdGroup(ctx) {
     if (!ad.disable) {
       ad.isA = adGroup.isA && ad.isA;
       ad.isS = adGroup.isS && ad.isS;
+
+      if(ad.isS && adGroup.isWX) ad.isS = ad.isWX; //如果是微信渠道,则只显示支持微信的广告
+
       if (ad.isA && ctx.params.group_id != '57d2329e703055a309e186ff') {//如果需要自动点击, 则判断上次自动点击的时间是否已经超过一小时
         const exists = await client.existsAsync(ad.id + ' ' + ip);
         if (exists) ad.isA = false;
