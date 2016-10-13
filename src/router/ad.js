@@ -21,7 +21,7 @@ export async function getAdDemo(ctx) {
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
 
-  let data = fs.readFileSync(path.join(__dirname, '../../file/demo_script.html'), "utf-8");
+  let data = fs.readFileSync(path.join(__dirname, '../file/demo_script.html'), "utf-8");
 
   switch (type) {
     case 0:
