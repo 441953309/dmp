@@ -49,7 +49,7 @@ export async function getAdDemo(ctx) {
 export async function getCnzzHtml(ctx) {
   const cnzz_id = ctx.params.cnzz_id || '1260235570';
   const data = fs.readFileSync(path.join(__dirname, '../file/cnzz.html'), "utf-8");
-  ctx.body = data.replace(/group_cnzz_id/g, cnzz_id);
+  ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id);
 }
 
 export async function getAdScript(ctx) {
