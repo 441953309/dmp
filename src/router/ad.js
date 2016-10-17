@@ -100,9 +100,10 @@ export async function getAdGroup(ctx) {
   const adGroup = await AdGroup.findById(ctx.params.group_id).populate('ads');
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
+  const ads = await Ad.find({disable: false, $or: [{isAll:true}, {groups: adGroup._id}]}).sort('-weight');
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
   const items = [];
-  for (let ad of adGroup.ads) {
+  for (let ad of ads) {
     if (!ad.disable) {
       ad.isA = adGroup.isA && ad.isA;
       ad.isS = adGroup.isS && ad.isS;
