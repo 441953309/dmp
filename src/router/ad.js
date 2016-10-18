@@ -63,7 +63,7 @@ export async function getAdScript(ctx) {
 
   if(group_id == '580625e1d40a6b8cfd87075c'){
     const ua = ctx.state.userAgent;
-    if (!ua.isiPhone && !ua.isiPad) {
+    if (ua.isAndroid) {
       return ctx.body = fs.readFileSync(path.join(__dirname, '../file/script_android.js'), "utf-8");
     }
   }
