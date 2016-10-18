@@ -61,6 +61,13 @@ export async function getAdScript(ctx) {
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
+  if(group_id == '580625e1d40a6b8cfd87075c'){
+    const ua = ctx.state.userAgent;
+    if (!ua.isiPhone && !ua.isiPad) {
+      return ctx.body = fs.readFileSync(path.join(__dirname, '../file/script_android.js'), "utf-8");
+    }
+  }
+
   const cnzz_id = adGroup.cnzz_id || '1260235570';
 
   let data;
