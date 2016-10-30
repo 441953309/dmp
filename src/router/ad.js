@@ -19,6 +19,11 @@ client.on("error", function (error) {
 });
 
 export async function getAdDemo(ctx) {
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) {
+    return ctx.body = '请使用iPhone查看Demo';
+  }
+
   const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
@@ -53,6 +58,9 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) ctx.throw(400);
+
   const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
@@ -61,24 +69,12 @@ export async function getAdScript(ctx) {
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
-  if (group_id == '580625e1d40a6b8cfd87075c' || group_id == '57fee72db3abbc286373c315') {
-    const ua = ctx.state.userAgent;
-    if (ua.isAndroid) {
-      return ctx.body = fs.readFileSync(path.join(__dirname, '../file/script_android.js'), "utf-8");
-    }
-  }
-
   const cnzz_id = adGroup.cnzz_id || '1260235570';
 
   let data;
   switch (type) {
     case 0:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
-      // if(group_id == '580080803a31060b4a764ba0'){
-      //   data = fs.readFileSync(path.join(__dirname, '../file/script_banner_bottom_60.js'), "utf-8");
-      // }else{
-      //
-      // }
       break;
     case 1:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner_top.js'), "utf-8");
@@ -184,7 +180,7 @@ export async function apiAdGroup(ctx) {
   const adGroup = await AdGroup.findById(ctx.params.group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
-  if(ctx.params.group_id != '5808385ed40a6b8cfd870761') ctx.throw(400);
+  if (ctx.params.group_id != '5808385ed40a6b8cfd870761') ctx.throw(400);
 
   const ads = await Ad.find({disable: false, $or: [{isAll: true}, {groups: adGroup._id}]}).sort('-weight');
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
@@ -234,7 +230,7 @@ export async function apiJump(ctx) {
     ctx.redirect(ad.url);
     ClickRecord.create({group_id, ad_id, ip, auto: false});
   } else if (type === 1) {//广告自动点击统计
-    if(adGroup.isA){
+    if (adGroup.isA) {
       const ua = ctx.state.userAgent
       if (ua.isiPhone || ua.isiPad) {
         isClick = true;
@@ -243,14 +239,14 @@ export async function apiJump(ctx) {
       } else {
         ctx.body = ' ';
       }
-    }else{
+    } else {
       ctx.body = ' ';
     }
   } else {
     ctx.throw(400);
   }
 
-  if(isClick){
+  if (isClick) {
     client.set(ad.id + ' ' + ip, 1, err => {
       if (err) console.log('Redis Err: ' + err.toString());
     });
