@@ -152,7 +152,7 @@ export async function jump(ctx) {
   let ad = await Ad.findById(ad_id);
   if(urls.length == 0){
     ad = await Ad.findOne({name: ad.name, disable: false})
-    urls = await AdUrl.find({adId: ad.id, disable: false});
+    urls = await AdUrl.find({adId: ad._id, disable: false});
     console.log('重新查找: ' + ad.name);
   }
   if (urls.length == 0) ctx.throw(ad.name);
