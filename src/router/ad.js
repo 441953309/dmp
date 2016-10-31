@@ -234,7 +234,13 @@ export async function apiJump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(group_id))ctx.throw(400);
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
-  const urls = await AdUrl.find({adId: ad_id, disable: false});
+  let urls = await AdUrl.find({adId: ad_id, disable: false});
+  if(urls.length == 0){
+    let ad = await Ad.findById(ad_id);
+    ad = await Ad.findOne({name: ad.name, disable: false})
+    urls = await AdUrl.find({adId: ad.id, disable: false});
+    console.log('API重新查找: ' + ad.name);
+  }
   if (urls.length == 0) ctx.throw(400);
 
   let isClick = false;
