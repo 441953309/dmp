@@ -149,7 +149,8 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
   const urls = await AdUrl.find({adId: ad_id, disable: false});
-  if (urls.length == 0) ctx.throw(400);
+  const ad = await Ad.findById(ad_id);
+  if (urls.length == 0) ctx.throw(ad.name);
 
   client.set(ad_id + ' ' + ip, 1, err => {
     if (err) console.log('Redis Err: ' + err.toString());
