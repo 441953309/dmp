@@ -3,6 +3,7 @@ const path = require('path');
 const moment = require('moment');
 const mongoose = require('mongoose');
 const Ad = mongoose.model('Ad');
+const AdUrl = mongoose.model('AdUrl');
 const AdGroup = mongoose.model('AdGroup');
 const ShowRecord = mongoose.model('ShowRecord');
 const ClickRecord = mongoose.model('ClickRecord');
@@ -60,7 +61,6 @@ export async function getCnzzHtml(ctx) {
 export async function getAdScript(ctx) {
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) return ctx.body = ' ';
-
 
   const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
   const type = types.indexOf(ctx.params.type);
@@ -138,7 +138,7 @@ export async function getAdGroup(ctx) {
 }
 
 export async function jump(ctx) {
-  const types = ['s', 'c', 'a']; //s: show, c: click, a: autoclick
+  const types = ['c', 'a']; //c: click, a: autoclick
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
 
   const type = types.indexOf(ctx.params.type);
@@ -148,31 +148,41 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(group_id))ctx.throw(400);
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
-  const ad = await Ad.findById(ad_id);
-  if (!ad) ctx.throw(400);
+  const urls = await AdUrl.find({adId: ad_id, disable: false});
+  if (urls.length == 0) ctx.throw(400);
 
-  if (type === 0) { //广告图片展示统计
-    ctx.redirect(`http://res.mobaders.com/uploads/${ad.imgName}.jpg`);
-  } else {
-    client.set(ad.id + ' ' + ip, 1, err => {
-      if (err) console.log('Redis Err: ' + err.toString());
-    });
-    client.expire(ad.id + " " + ip, 60 * 10);
+  client.set(ad_id + ' ' + ip, 1, err => {
+    if (err) console.log('Redis Err: ' + err.toString());
+  });
+  client.expire(ad_id + " " + ip, 60 * 10);
 
-    if (type === 1) { //广告点击统计
-      ctx.redirect(ad.url);
-      ClickRecord.create({group_id, ad_id, ip, auto: false});
-    } else if (type === 2) {//广告自动点击统计
-      const ua = ctx.state.userAgent
-      if (ua.isiPhone || ua.isiPad) {
-        ctx.redirect(ad.url);
-        // ClickRecord.create({group_id, ad_id, ip, auto: true});
-      } else {
-        ctx.body = ' ';
+  if (type === 0) { //广告点击统计
+    const arr = [];
+    for (let i = 0; i < urls.length; i++) {
+      if (urls[i].url) {
+        for (let j = 0; j < urls[i].weight; j++) {
+          arr.push(i);
+        }
       }
-    } else {
-      ctx.throw(400);
     }
+    const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+    ctx.redirect(url);
+    ClickRecord.create({group_id, ad_id, ip, auto: false});
+  } else if (type === 1) {//广告自动点击统计
+    const arr = [];
+    for (let i = 0; i < urls.length; i++) {
+      for (let j = 0; j < urls[i].weight; j++) {
+        arr.push(i);
+      }
+    }
+    const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+    if (url) {
+      ctx.redirect(url);
+    } else {
+      ctx.body = ' ';
+    }
+  } else {
+    ctx.throw(400);
   }
 }
 
@@ -181,7 +191,7 @@ export async function apiAdGroup(ctx) {
   const adGroup = await AdGroup.findById(ctx.params.group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
-  if (ctx.params.group_id != '5808385ed40a6b8cfd870761') ctx.throw(400);
+  if (ctx.params.group_id != '5808385ed40a6b8cfd870761' && ctx.params.group_id != '57fee72db3abbc286373c315') ctx.throw(400);
 
   const ads = await Ad.find({disable: false, $or: [{isAll: true}, {groups: adGroup._id}]}).sort('-weight');
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
@@ -218,24 +228,46 @@ export async function apiJump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(group_id))ctx.throw(400);
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
-  //判断广告是否有效
-  const adGroup = await AdGroup.findById(ctx.params.group_id);
-  if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
-  const ad = await Ad.findById(ad_id);
-  if (!ad || ad.display) ctx.throw(400);
+  const urls = await AdUrl.find({adId: ad_id, disable: false});
+  if (urls.length == 0) ctx.throw(400);
 
   let isClick = false;
-
   if (type === 0) { //广告点击统计
     isClick = true;
-    ctx.redirect(ad.url);
+    const arr = [];
+    for (let i = 0; i < urls.length; i++) {
+      if (urls[i].url) {
+        for (let j = 0; j < urls[i].weight; j++) {
+          arr.push(i);
+        }
+      }
+    }
+    const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+    ctx.redirect(url);
     ClickRecord.create({group_id, ad_id, ip, auto: false});
+
   } else if (type === 1) {//广告自动点击统计
-    if (adGroup.isA) {
-      const ua = ctx.state.userAgent
+    //判断广告是否有效
+    const adGroup = await AdGroup.findById(ctx.params.group_id);
+    if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
+    const ad = await Ad.findById(ad_id);
+    if (!ad || ad.disable) ctx.throw(400);
+
+    if (adGroup.isA && ad.isA) {
+      const ua = ctx.state.userAgent;
       if (ua.isiPhone || ua.isiPad) {
         isClick = true;
-        ctx.redirect(ad.url);
+
+        const arr = [];
+        for (let i = 0; i < urls.length; i++) {
+          if (urls[i].url) {
+            for (let j = 0; j < urls[i].weight; j++) {
+              arr.push(i);
+            }
+          }
+        }
+        const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+        ctx.redirect(url);
         ClickRecord.create({group_id, ad_id, ip, auto: true});
       } else {
         ctx.body = ' ';
@@ -248,9 +280,10 @@ export async function apiJump(ctx) {
   }
 
   if (isClick) {
-    client.set(ad.id + ' ' + ip, 1, err => {
+    client.set(ad_id + ' ' + ip, 1, err => {
       if (err) console.log('Redis Err: ' + err.toString());
     });
-    client.expire(ad.id + " " + ip, 60 * 10);
+    client.expire(ad_id + " " + ip, 60 * 10);
   }
+
 }
