@@ -59,7 +59,8 @@ export async function getCnzzHtml(ctx) {
 
 export async function getAdScript(ctx) {
   const ua = ctx.state.userAgent;
-  if (!ua.isiPhone && !ua.isiPad) ctx.throw(400);
+  if (!ua.isiPhone && !ua.isiPad) return ctx.body = ' ';
+
 
   const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
   const type = types.indexOf(ctx.params.type);
