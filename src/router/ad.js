@@ -149,15 +149,13 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
-  let ad = await Ad.findById(ad_id);
-  if(urls.length == 0 && ad){
+  if(urls.length == 0){
+    let ad = await Ad.findById(ad_id);
     ad = await Ad.findOne({name: ad.name, disable: false})
-    if(ad){
-      urls = await AdUrl.find({adId: ad._id, disable: false});
-      console.log('重新查找: ' + ad.name);
-    }
+    urls = await AdUrl.find({adId: ad.id, disable: false});
+    console.log('重新查找: ' + ad.name);
   }
-  if (urls.length == 0) ctx.throw(ad.name);
+  if (urls.length == 0) ctx.throw(400);
 
   client.set(ad_id + ' ' + ip, 1, err => {
     if (err) console.log('Redis Err: ' + err.toString());
