@@ -48,7 +48,16 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  const types = ['b','i']; //b: bottom, i: inline
+  if (Math.random() > 0) {
+    const cnzz_id = '1260729468';
+    let data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
+
+    return ctx.body = data
+      .replace(/\{script_host\}/g, config.host)
+      .replace('{group_cnzz_id}', cnzz_id);
+  }
+
+  const types = ['b', 'i']; //b: bottom, i: inline
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
@@ -86,7 +95,7 @@ export async function getAdGroup(ctx) {
   const items1 = [];
   const items2 = [];
   for (let ad of ads) {
-    if(ad.isS){
+    if (ad.isS) {
       const info = {};
       info.img = `http://res.mobaders.com/uploadsa/${ad.imgName}.jpg`;
       info.url = `${config.host}/an/j/c/${adGroup.id}/${ad.id}`;
