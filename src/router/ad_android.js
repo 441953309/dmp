@@ -48,7 +48,7 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  if (Math.random() > 0) {
+  if (Math.random() > 1) {
     const cnzz_id = '1260729468';
     let data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
 
