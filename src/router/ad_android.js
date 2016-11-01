@@ -88,7 +88,7 @@ export async function getAdGroup(ctx) {
   for (let ad of ads) {
     if(ad.isS){
       const info = {};
-      info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
+      info.img = `http://res.mobaders.com/uploadsa/${ad.imgName}.jpg`;
       info.url = `${config.host}/an/j/c/${adGroup.id}/${ad.id}`;
 
       const exists = await client.existsAsync(ad.id + ' ' + ip);
