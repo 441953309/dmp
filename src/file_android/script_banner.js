@@ -120,7 +120,7 @@ ajax({
 
     if (canClose)wrap.appendChild(btn);
 
-    slider1(time1, doms.sort(function(){ return Math.random() > 0.5 ? -1 : 1 }));
-    slider2(time2, urls)
+    slider1(time1, doms);
+    slider2(time2, urls);
   }
 });

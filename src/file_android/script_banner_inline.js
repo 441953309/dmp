@@ -117,7 +117,7 @@ ajax({
     var time1 = 1000 * 15;
     var time2 = 1000 * 3;
 
-    slider1(time1, doms.sort(function(){ return Math.random() > 0.5 ? -1 : 1 }));
+    slider1(time1, doms);
     slider2(time2, urls)
   }
 });
