@@ -203,12 +203,14 @@ export async function apiAdGroup(ctx) {
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
 
   const items = [];
-  for (let ad of ads) {
+  for (let i=0; i<ads.length && i<2; i++){
+    const ad = ads[i];
     if (ad.isS && ad.isA) {
       const info = {};
       info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
       info.clkmonurl = `${config.host}/core/j/c/${adGroup.id}/${ad.id}`;
       info.impmonurl = `${config.host}/core/j/a/${adGroup.id}/${ad.id}`;
+
       items.push(info);
     }
   }
