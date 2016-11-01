@@ -201,25 +201,19 @@ export async function apiAdGroup(ctx) {
 
   const ads = await Ad.find({disable: false, $or: [{isAll: true}, {groups: adGroup._id}]}).sort('-weight');
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
-  const items1 = [];
-  const items2 = [];
+
+  const items = [];
   for (let ad of ads) {
     if (ad.isS && ad.isA) {
       const info = {};
       info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
       info.clkmonurl = `${config.host}/core/j/c/${adGroup.id}/${ad.id}`;
       info.impmonurl = `${config.host}/core/j/a/${adGroup.id}/${ad.id}`;
-
-      const exists = await client.existsAsync(ad.id + ' ' + ip);
-      if (exists) {
-        items2.push(info);
-      } else {
-        items1.push(info);
-      }
+      items.push(info);
     }
   }
 
-  ctx.body = items1.concat(items2);
+  ctx.body = items;
   ShowRecord.create({group_id: adGroup._id, ip});
 }
 
