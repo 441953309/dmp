@@ -75,7 +75,11 @@ export async function getAdScript(ctx) {
   let data;
   switch (type) {
     case 0:
-      data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
+      if (group_id == '58097d52d40a6b8cfd870765') {
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner_bottom_60.js'), "utf-8");
+      } else {
+        data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
+      }
       break;
     case 1:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner_top.js'), "utf-8");
