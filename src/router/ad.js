@@ -75,7 +75,7 @@ export async function getAdScript(ctx) {
   let data;
   switch (type) {
     case 0:
-      if (group_id == '58097d52d40a6b8cfd870765') {
+      if (group_id == '58097d52d40a6b8cfd870765' || group_id == '5819a597cd7cd931817446b5') {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_bottom_60.js'), "utf-8");
       } else {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
@@ -153,7 +153,7 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
-  if(urls.length == 0){
+  if (urls.length == 0) {
     let ad = await Ad.findById(ad_id);
     ad = await Ad.findOne({name: ad.name, disable: false})
     urls = await AdUrl.find({adId: ad.id, disable: false});
@@ -207,7 +207,7 @@ export async function apiAdGroup(ctx) {
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
 
   const items = [];
-  for (let i=0; i<ads.length && i<2; i++){
+  for (let i = 0; i < ads.length && i < 2; i++) {
     const ad = ads[i];
     if (ad.isS && ad.isA) {
       const info = {};
@@ -235,7 +235,7 @@ export async function apiJump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
-  if(urls.length == 0){
+  if (urls.length == 0) {
     let ad = await Ad.findById(ad_id);
     ad = await Ad.findOne({name: ad.name, disable: false})
     urls = await AdUrl.find({adId: ad.id, disable: false});
