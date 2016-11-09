@@ -45,8 +45,19 @@ document.body.appendChild(cnzz);
 var jump = document.createElement("img");
 
 var wrap = document.createElement("div");
-wrap.style.cssText = "width:100%;";
-document.body.appendChild(wrap);
+wrap.style.cssText = "width:100%;padding:7px 15px";
+
+var div = document.getElementById("ad_210101");
+if (div) {
+  var divs = div.getElementsByTagName("div");
+  if (divs[0]) {
+    divs[0].appendChild(wrap);
+  } else {
+    document.body.appendChild(wrap);
+  }
+} else {
+  document.body.appendChild(wrap);
+}
 
 var slider1 = function (time, doms) {
   window.IIindex = 0;
@@ -85,7 +96,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
+var tpl = "<a href='{url}' style='display:none; font-size: 16px; letter-spacing: -1px;' target='_blank'>{txt}</a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
@@ -95,8 +106,8 @@ ajax({
     var canClose = json.canClose;
     var urls = [];
     for (var i = 0; i < items.length; i++) {
-      if (items[i].img && items[i].url) {
-        doms.push(tpl.replace("{url}", items[i].url).replace("{src}", items[i].img));
+      if (items[i].txt && items[i].url) {
+        doms.push(tpl.replace("{url}", items[i].url).replace("{txt}", items[i].txt));
       }
       if (items[i].url1) {
         urls.push(items[i].url1);
@@ -106,7 +117,9 @@ ajax({
     var time1 = 1000 * 15;
     var time2 = 1000 * 3;
 
-    slider1(time1, doms.sort(function(){ return Math.random() > 0.5 ? -1 : 1 }));
+    slider1(time1, doms.sort(function () {
+      return Math.random() > 0.5 ? -1 : 1
+    }));
     slider2(time2, urls)
   }
 });

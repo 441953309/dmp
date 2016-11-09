@@ -19,13 +19,27 @@ client.on("error", function (error) {
   console.error(error);
 });
 
+export async function getAdDemoFrame(ctx) {
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) {
+    return ctx.body = '请使用iPhone查看Demo';
+  }
+
+  let data = fs.readFileSync(path.join(__dirname, '../file/demo_iframe.html'), "utf-8");
+
+  ctx.body = data
+    .replace('{script_host}', config.host)
+    .replace('{script_type}', ctx.params.type)
+    .replace('{group_group}', ctx.params.group_id);
+}
+
 export async function getAdDemo(ctx) {
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
     return ctx.body = '请使用iPhone查看Demo';
   }
 
-  const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
+  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
 
@@ -44,6 +58,9 @@ export async function getAdDemo(ctx) {
     case 3:
       data = data.replace('{demo_type_title}', '浮标广告位demo');
       break;
+    case 4:
+      data = data.replace('{demo_type_title}', '文字链广告位demo');
+      break;
   }
 
   ctx.body = data
@@ -58,11 +75,29 @@ export async function getCnzzHtml(ctx) {
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id);
 }
 
+export async function getAdHtml(ctx) {
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) {
+    return ctx.body = '请使用iPhone查看';
+  }
+
+  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const type = types.indexOf(ctx.params.type);
+  if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
+
+  let data = fs.readFileSync(path.join(__dirname, '../file/script.html'), "utf-8");
+
+  ctx.body = data
+    .replace('{script_host}', config.host)
+    .replace('{script_type}', ctx.params.type)
+    .replace('{group_group}', ctx.params.group_id);
+}
+
 export async function getAdScript(ctx) {
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) return ctx.body = ' ';
 
-  const types = ['b', 't', 'i', 'm']; //b: bottom, t: top, i: inline, m: mini
+  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
@@ -93,6 +128,9 @@ export async function getAdScript(ctx) {
       break;
     case 3:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner_mini.js'), "utf-8");
+      break;
+    case 4:
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner_txt.js'), "utf-8");
       break;
     default:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
@@ -126,6 +164,7 @@ export async function getAdGroup(ctx) {
 
       const info = {};
       if (ad.isS) {  //广告显示才需要图片和点击地址
+        info.txt = ad.name;
         info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
         info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_m.png`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
