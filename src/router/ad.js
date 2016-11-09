@@ -164,7 +164,7 @@ export async function getAdGroup(ctx) {
 
       const info = {};
       if (ad.isS) {  //广告显示才需要图片和点击地址
-        info.txt = ad.name;
+        info.txt = ad.title;
         info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
         info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_m.png`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
