@@ -96,7 +96,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
+var tpl = "<a href='{url}' style='display:none;' target='_parent'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
