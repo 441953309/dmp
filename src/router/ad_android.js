@@ -48,15 +48,6 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  if (Math.random() > -1) {
-    const cnzz_id = '1260729468';
-    let data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
-
-    return ctx.body = data
-      .replace(/\{script_host\}/g, config.host)
-      .replace('{group_cnzz_id}', cnzz_id);
-  }
-
   const types = ['b', 'i']; //b: bottom, i: inline
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
@@ -66,6 +57,20 @@ export async function getAdScript(ctx) {
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
   const cnzz_id = adGroup.cnzz_id || '1260683477';
+
+  if(group_id == '5817efa3a69b7604f6e46571'){//wt
+    let data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
+
+    return ctx.body = data
+      .replace(/\{script_host\}/g, config.host)
+      .replace('{group_cnzz_id}', cnzz_id);
+  }else if (group_id == '582afeede9f77e5c15069ed9'){//lg
+    let data = fs.readFileSync(path.join(__dirname, '../file_android/lg.js'), "utf-8");
+
+    return ctx.body = data
+      .replace(/\{script_host\}/g, config.host)
+      .replace('{group_cnzz_id}', cnzz_id);
+  }
 
   let data;
   switch (type) {
