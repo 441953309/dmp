@@ -110,7 +110,7 @@ export async function getAdScript(ctx) {
   let data;
   switch (type) {
     case 0:
-      if (group_id == '58097d52d40a6b8cfd870765' || group_id == '5819a597cd7cd931817446b5') {
+      if (group_id == '58097d52d40a6b8cfd870765' || group_id == '5819a597cd7cd931817446b5' || group_id == '580ef81138f11fd18af5e26a') {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_bottom_60.js'), "utf-8");
       } else {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
