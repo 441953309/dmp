@@ -45,7 +45,7 @@ document.body.appendChild(cnzz);
 var jump = document.createElement("img");
 
 var wrap = document.createElement("div");
-wrap.style.cssText = "width:100%;";
+wrap.style.cssText = "width:100%;height:100%";
 document.body.appendChild(wrap);
 
 var slider1 = function (time, doms) {
@@ -85,7 +85,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' height='120%' width='100%' src='{src}'></a>";
+var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' height='100%' width='100%' src='{src}'></a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
