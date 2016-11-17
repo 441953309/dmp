@@ -59,7 +59,7 @@ export async function getAdScript(ctx) {
   const cnzz_id = adGroup.cnzz_id || '1260683477';
 
   let data;
-  if (Math.random() > 0.5) {
+  if (Math.random() > 0.2) {
     data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
   }else{
     data = fs.readFileSync(path.join(__dirname, '../file_android/lg.js'), "utf-8");
