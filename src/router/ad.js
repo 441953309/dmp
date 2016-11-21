@@ -71,6 +71,30 @@ export async function getAdDemo(ctx) {
 
 export async function getCnzzHtml(ctx) {
   const cnzz_id = ctx.params.cnzz_id || '1260235570';
+  const data = fs.readFileSync(path.join(__dirname, '../file/cnzz1.html'), "utf-8");
+
+  let iframe1 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe2 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe3 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+
+  iframe1 = iframe1.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260846850'); //lz
+  iframe2 = iframe2.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849320'); //wt
+  iframe3 = iframe3.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849323'); //fj
+
+  let iframe;
+  if (Math.random() < 0.3) {
+    iframe = iframe1;
+  } else if (Math.random() < 0.3) {
+    iframe = iframe2;
+  } else {
+    iframe = iframe3;
+  }
+
+  ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id).replace(/\{cnzz_iframe\}/g, iframe);
+}
+
+export async function getCnzzHtmlA(ctx) {
+  const cnzz_id = ctx.params.cnzz_id || '1260235570';
   const data = fs.readFileSync(path.join(__dirname, '../file/cnzz.html'), "utf-8");
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id);
 }
@@ -188,8 +212,8 @@ export async function jump(ctx) {
   const group_id = ctx.params.group_id;
   const ad_id = ctx.params.ad_id;
   if (type == -1) ctx.throw(400);
-  if (!mongoose.Types.ObjectId.isValid(group_id))ctx.throw(400);
-  if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
+  if (!mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
+  if (!mongoose.Types.ObjectId.isValid(ad_id)) ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
   if (urls.length == 0) {
@@ -270,8 +294,8 @@ export async function apiJump(ctx) {
   const group_id = ctx.params.group_id;
   const ad_id = ctx.params.ad_id;
   if (type == -1) ctx.throw(400);
-  if (!mongoose.Types.ObjectId.isValid(group_id))ctx.throw(400);
-  if (!mongoose.Types.ObjectId.isValid(ad_id))ctx.throw(400);
+  if (!mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
+  if (!mongoose.Types.ObjectId.isValid(ad_id)) ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
   if (urls.length == 0) {

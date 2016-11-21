@@ -5,6 +5,7 @@ const adAndroid = require('./ad_android');
 
 //iOS
 router.get('/cnzz/:cnzz_id', ad.getCnzzHtml);
+router.get('/cnzzA/:cnzz_id', ad.getCnzzHtmlA);
 router.get('/di/:type/:group_id', ad.getAdDemoFrame);   //获取广告demo
 router.get('/d/:type/:group_id', ad.getAdDemo);   //获取广告demo
 router.get('/h/:type/:group_id', ad.getAdHtml);  //获取广告html
