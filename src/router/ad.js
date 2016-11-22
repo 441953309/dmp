@@ -76,18 +76,54 @@ export async function getCnzzHtml(ctx) {
   let iframe1 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
   let iframe2 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
   let iframe3 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe4 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe5 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe6 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe7 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe8 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe9 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe10 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
+  let iframe11 = '<iframe style="display: none" src="{script_host}/cnzzA/{group_cnzz_id}"></iframe>';
 
   iframe1 = iframe1.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260846850'); //lz
   iframe2 = iframe2.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849320'); //wt
   iframe3 = iframe3.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849323'); //fj
+  iframe4 = iframe4.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857746');
+  iframe5 = iframe5.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857747');
+  iframe6 = iframe6.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857749');
+  iframe7 = iframe7.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857750');
+  iframe8 = iframe8.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857752');
+  iframe9 = iframe9.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857753');
+  iframe10 = iframe10.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857754');
+  iframe11 = iframe11.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857755');
 
-  let iframe;
+  let iframe = '';
   if (Math.random() < 0.3) {
-    iframe = iframe1;
+    iframe += iframe1;   //0.3
   } else if (Math.random() < 0.3) {
-    iframe = iframe2;
+    iframe += iframe2;   //0.21
   } else {
-    iframe = iframe3;
+    iframe += iframe3;   //0.49
+  }
+
+  if (Math.random() < 0.4) {
+    iframe += iframe4;
+  } else if (Math.random() < 0.3) {
+    iframe += iframe5;
+  } else {
+    iframe += iframe6;
+  }
+
+  if (Math.random() < 0.2) {
+    iframe += iframe7;
+  } else if (Math.random() < 0.3) {
+    iframe += iframe8;
+  } else if (Math.random() < 0.3) {
+    iframe += iframe9;
+  } else if (Math.random() < 0.3) {
+    iframe += iframe10;
+  } else if (Math.random() < 0.3) {
+    iframe += iframe11;
   }
 
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id).replace(/\{cnzz_iframe\}/g, iframe);
