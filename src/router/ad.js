@@ -106,25 +106,6 @@ export async function getCnzzHtml(ctx) {
     iframe += iframe3;   //0.49
   }
 
-  if (Math.random() < 0.4) {
-    iframe += iframe4;
-  } else if (Math.random() < 0.3) {
-    iframe += iframe5;
-  } else {
-    iframe += iframe6;
-  }
-
-  if (Math.random() < 0.2) {
-    iframe += iframe7;
-  } else if (Math.random() < 0.3) {
-    iframe += iframe8;
-  } else if (Math.random() < 0.3) {
-    iframe += iframe9;
-  } else if (Math.random() < 0.3) {
-    iframe += iframe10;
-  } else if (Math.random() < 0.3) {
-    iframe += iframe11;
-  }
 
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id).replace(/\{cnzz_iframe\}/g, iframe);
 }
