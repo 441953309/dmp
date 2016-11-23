@@ -59,15 +59,17 @@ export async function getAdScript(ctx) {
   const cnzz_id = adGroup.cnzz_id || '1260683477';
 
   let data;
-  if (Math.random() > 0.2) {
-    data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
-  }else{
-    data = fs.readFileSync(path.join(__dirname, '../file_android/lg.js'), "utf-8");
-  }
 
-  return ctx.body = data
-    .replace(/\{script_host\}/g, config.host)
-    .replace('{group_cnzz_id}', cnzz_id);
+  if(group_id == '5817efa3a69b7604f6e46571' || group_id == '582afeede9f77e5c15069ed9'){//直接投放js的
+    if (Math.random() > 0.2) {
+      data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
+    }else{
+      data = fs.readFileSync(path.join(__dirname, '../file_android/lg.js'), "utf-8");
+    }
+    return ctx.body = data
+      .replace(/\{script_host\}/g, config.host)
+      .replace('{group_cnzz_id}', cnzz_id);
+  }
 
   switch (type) {
     case 0:
