@@ -17,6 +17,6 @@
     "mongoose-timestamp": "^0.6.0",
     "redis": "^2.6.2",
     "runkoa": "^1.5.2",
-    "uglify-js": "^2.7.3"
+    "uglify-js": "^2.7.4"
   }
 }

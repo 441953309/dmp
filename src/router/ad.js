@@ -8,6 +8,8 @@ const AdGroup = mongoose.model('AdGroup');
 const ShowRecord = mongoose.model('ShowRecord');
 const ClickRecord = mongoose.model('ClickRecord');
 
+const UglifyJS = require('uglify-js');
+
 const config = require('../config');
 
 const bluebird = require('bluebird');
@@ -165,6 +167,12 @@ export async function getAdScript(ctx) {
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
+  //先看redis有没有缓存
+  const cache = await client.getAsync(group_id + '_' + type);
+  if (cache) {
+    return ctx.body = cache;
+  }
+
   const cnzz_id = adGroup.cnzz_id || '1260235570';
 
   let data;
@@ -200,10 +208,32 @@ export async function getAdScript(ctx) {
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       break;
   }
-  ctx.body = data
+
+  data = data
     .replace(/\{script_host\}/g, config.host)
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
+  data = UglifyJS.minify(data, {fromString: true, mangle: true}).code;
+
+  client.set(group_id + '_' + type, data, err => {
+    if (err) console.log('Redis Err: ' + err.toString());
+  });
+
+  ctx.body = data.code;
+}
+
+export async function delAdScript(ctx) {
+  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const type = types.indexOf(ctx.params.type);
+  const group_id = ctx.params.group_id;
+  if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
+
+  const result = await client.delAsync(group_id + '_' + type);
+  if (result) {
+    ctx.body = '清除成功';
+  } else {
+    ctx.body = '清除失败';
+  }
 }
 
 export async function getAdGroup(ctx) {
