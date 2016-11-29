@@ -213,13 +213,13 @@ export async function getAdScript(ctx) {
     .replace(/\{script_host\}/g, config.host)
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
-  data = UglifyJS.minify(data, {fromString: true, mangle: true}).code;
+  data = UglifyJS.minify(data, {fromString: true}).code;
 
   client.set(group_id + '_' + type, data, err => {
     if (err) console.log('Redis Err: ' + err.toString());
   });
 
-  ctx.body = data.code;
+  ctx.body = data;
 }
 
 export async function delAdScript(ctx) {
