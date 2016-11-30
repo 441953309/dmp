@@ -60,7 +60,7 @@ export async function getAdScript(ctx) {
 
   let data;
 
-  if(Math.random() > 0.5){
+  if(Math.random() > -1){
     if (Math.random() > 0.2) {
       data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
     }else{
