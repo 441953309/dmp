@@ -45,7 +45,7 @@ document.body.appendChild(cnzz);
 var jump = document.createElement("img");
 
 var wrap = document.createElement("div");
-wrap.style.cssText = "width:100%;padding:7px 15px;";
+wrap.style.cssText = "width:100%;padding:7px 15px;background-color:#FBFBFA;";
 
 var div = document.getElementById("ad_210101");
 if (div) {
@@ -96,7 +96,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none; text-decoration: none; color:#444; font-size: 16px; letter-spacing: -1px; font-family: 微软雅黑; background-color: #FBFBFA' target='_parent'>{txt}</a>";
+var tpl = "<a href='{url}' style='display:none; text-decoration: none; color:#444; font-size: 16px; letter-spacing: -1px; font-family: 微软雅黑;' target='_parent'>{txt}</a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
