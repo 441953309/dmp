@@ -45,7 +45,7 @@ document.body.appendChild(cnzz);
 var jump = document.createElement("img");
 
 var wrap = document.createElement("div");
-wrap.style.cssText = "width:100%;padding:7px 15px;background-color:#FBFBFA";
+wrap.style.cssText = "width:100%;padding:7px 15px;background-color:#000";
 
 var div = document.getElementById("ad_210101");
 if (div) {
