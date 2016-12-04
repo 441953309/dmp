@@ -156,13 +156,19 @@ export async function getAdHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  const ua = ctx.state.userAgent;
-  if (!ua.isiPhone && !ua.isiPad) return ctx.body = ' ';
-
   const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
+
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) {
+    if (group_id == '5843cf46256899bc460ba241') {//如果是58IOS
+      return ctx.redirect(`http://da1.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android
+    } else {
+      return ctx.body = ' ';
+    }
+  }
 
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
