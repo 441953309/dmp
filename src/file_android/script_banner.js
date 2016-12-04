@@ -42,8 +42,6 @@ cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
-var jump = document.createElement("img");
-
 var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
 document.body.appendChild(wrap);
@@ -84,17 +82,6 @@ var slider1 = function (time, doms) {
     slider()
   }, time);
 };
-var slider2 = function (time, urls) {
-  window.AIndex = 0;
-  var request = function () {
-    if (window.AIndex < urls.length) {
-      jump.src = urls[window.AIndex];
-      window.AIndex++;
-      setTimeout(request, time);
-    }
-  }
-  request();
-};
 
 var doms = [];
 var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: bottom;' width='100%' src='{src}'></a>";
@@ -110,17 +97,12 @@ ajax({
       if (items[i].img && items[i].url) {
         doms.push(tpl.replace("{url}", items[i].url).replace("{src}", items[i].img));
       }
-      if (items[i].url1) {
-        urls.push(items[i].url1);
-      }
     }
 
     var time1 = 1000 * 15;
-    var time2 = 1000 * 3;
 
     if (canClose)wrap.appendChild(btn);
 
     slider1(time1, doms);
-    slider2(time2, urls);
   }
 });

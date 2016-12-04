@@ -42,16 +42,19 @@ cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
-var jump = document.createElement("img");
-
 var wrap = document.createElement("div");
-wrap.style.cssText = "width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
-document.body.appendChild(wrap);
+wrap.style.cssText = "width:100%;padding:7px 15px";
 
-var btn = document.createElement("div");
-btn.style.cssText = "position:absolute;right:0px;top:-19px;width:48px;height:19px;background:url('http://res.mobaders.com/images/close.png') no-repeat 0 0";
-btn.onclick = function () {
-  wrap.style.display = "none";
+var div = document.getElementById("ad_210101");
+if(div){
+  var divs = div.getElementsByTagName("div");
+  if(divs[0]){
+    divs[0].appendChild(wrap);
+  }else{
+    document.body.appendChild(wrap);
+  }
+}else{
+  document.body.appendChild(wrap);
 }
 
 var slider1 = function (time, doms) {
@@ -67,12 +70,6 @@ var slider1 = function (time, doms) {
     if (!es[window.IIindex]) {
       wrap.innerHTML += doms[window.IIindex];
       es = wrap.querySelectorAll("a");
-      var div = wrap.querySelector("div");
-      if(div){
-        div.onclick = function () {
-          wrap.style.display = "none";
-        }
-      }
     }
 
     es[window.IIindex].style.display = "inline";
@@ -84,20 +81,9 @@ var slider1 = function (time, doms) {
     slider()
   }, time);
 };
-var slider2 = function (time, urls) {
-  window.AIndex = 0;
-  var request = function () {
-    if (window.AIndex < urls.length) {
-      jump.src = urls[window.AIndex];
-      window.AIndex++;
-      setTimeout(request, time);
-    }
-  }
-  request();
-};
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: bottom;' width='100%' src='{src}'></a>";
+var tpl = "<a href='{url}' style='display:none; text-decoration: none; color:#000; font-size: 16px; letter-spacing: -1px; font-family: 微软雅黑;' target='_parent'>{txt}</a>";
 ajax({
   type: "get",
   url: "{script_host}/an/a/{group_group}",
@@ -105,22 +91,14 @@ ajax({
   success: function (json) {
     var items = json.items;
     var canClose = json.canClose;
-    var urls = [];
     for (var i = 0; i < items.length; i++) {
-      if (items[i].img && items[i].url) {
-        doms.push(tpl.replace("{url}", items[i].url).replace("{src}", items[i].img));
-      }
-      if (items[i].url1) {
-        urls.push(items[i].url1);
+      if (items[i].txt && items[i].url) {
+        doms.push(tpl.replace("{url}", items[i].url).replace("{txt}", items[i].txt));
       }
     }
 
     var time1 = 1000 * 15;
-    var time2 = 1000 * 3;
-
-    if (canClose)wrap.appendChild(btn);
 
     slider1(time1, doms);
-    slider2(time2, urls);
   }
 });
