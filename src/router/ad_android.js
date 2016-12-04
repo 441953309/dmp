@@ -48,7 +48,7 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  const types = ['b', 'i']; //b: bottom, i: inline
+  const types = ['b', 'i', 'x']; //b: bottom, i: inline, x: txt
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
@@ -60,7 +60,7 @@ export async function getAdScript(ctx) {
 
   let data;
 
-  if(Math.random() > -1){
+  if(group_id == '5817efa3a69b7604f6e46571'){
     if (Math.random() > 0.2) {
       data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
     }else{
@@ -71,14 +71,15 @@ export async function getAdScript(ctx) {
       .replace('{group_cnzz_id}', cnzz_id);
   }
 
-  cnzz_id = '1260819046';//卫裤统计
-
   switch (type) {
     case 0:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner.js'), "utf-8");
       break;
     case 1:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner_inline.js'), "utf-8");
+      break;
+    case 2:
+      data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner_txt.js'), "utf-8");
       break;
     default:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner.js'), "utf-8");
@@ -100,8 +101,9 @@ export async function getAdGroup(ctx) {
   const items1 = [];
   const items2 = [];
   for (let ad of ads) {
-    if (ad.isS) {
+    if (!ad.disable && ad.isS) {
       const info = {};
+      info.txt = ad.title;
       info.img = `http://res.mobaders.com/uploadsa/${ad.imgName}.jpg`;
       info.url = `${config.host}/an/j/c/${adGroup.id}/${ad.id}`;
 
