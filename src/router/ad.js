@@ -161,8 +161,8 @@ export async function getAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
-  //优酷d3服务器20%流量分到 d4
-  if(group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6){
+  //优酷d3服务器30%量分到 d4
+  if(group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.7){
     return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
   }
 
