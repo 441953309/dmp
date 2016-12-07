@@ -9,6 +9,7 @@ const ShowRecord = mongoose.model('ShowRecord');
 const ClickRecord = mongoose.model('ClickRecord');
 
 const UglifyJS = require('uglify-js');
+const JavaScriptObfuscator = require('javascript-obfuscator');
 
 const config = require('../config');
 
@@ -227,6 +228,7 @@ export async function getAdScript(ctx) {
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
   data = UglifyJS.minify(data, {fromString: true}).code;
+  data = JavaScriptObfuscator.obfuscate(data).getObfuscatedCode();
 
   client.set(group_id + '_' + type, data, err => {
     if (err) console.log('Redis Err: ' + err.toString());
