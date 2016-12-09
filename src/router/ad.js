@@ -90,7 +90,7 @@ export async function getCnzzHtml(ctx) {
 
   iframe1 = iframe1.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260846850'); //lz
   iframe2 = iframe2.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849320'); //wt
-  iframe3 = iframe3.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849323'); //fj
+  iframe3 = iframe3.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260849323'); //fj //用做统计iPad
   iframe4 = iframe4.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857746');
   iframe5 = iframe5.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857747');
   iframe6 = iframe6.replace(/\{script_host\}/g, config.host).replace(/\{group_cnzz_id\}/g, '1260857749');
@@ -105,8 +105,6 @@ export async function getCnzzHtml(ctx) {
     iframe += iframe1;   //0.3
   } else if (Math.random() < 0.3) {
     iframe += iframe2;   //0.21
-  } else {
-    iframe += iframe3;   //0.49
   }
 
   if (Math.random() < 0.4) {
@@ -127,6 +125,11 @@ export async function getCnzzHtml(ctx) {
     iframe += iframe10;
   } else if (Math.random() < 0.3) {
     iframe += iframe11;
+  }
+
+  const ua = ctx.state.userAgent;
+  if(ua.isiPad){
+      iframe += iframe3;   //统计iPad的量
   }
 
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id).replace(/\{cnzz_iframe\}/g, iframe);
