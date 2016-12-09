@@ -166,9 +166,9 @@ export async function getAdScript(ctx) {
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
   //优酷d3服务器30%量分到 d2
-  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
-    return ctx.redirect(`http://d2.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
-  }
+  // if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
+  //   return ctx.redirect(`http://d2.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+  // }
 
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
