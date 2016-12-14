@@ -59,17 +59,14 @@ export async function getAdScript(ctx) {
   let cnzz_id = adGroup.cnzz_id || '1260683477';
 
   let data;
-
-  if(group_id == '5817efa3a69b7604f6e46571'){
-    if (Math.random() > -1) {
-      data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
-    }else{
-      data = fs.readFileSync(path.join(__dirname, '../file_android/lg.js'), "utf-8");
-    }
+  if(Math.random() > 0.3){
+    data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
     return ctx.body = data
       .replace(/\{script_host\}/g, config.host)
       .replace('{group_cnzz_id}', cnzz_id);
   }
+
+  cnzz_id = '1260683477';
 
   switch (type) {
     case 0:
