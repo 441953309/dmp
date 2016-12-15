@@ -56,18 +56,16 @@ export async function getAdScript(ctx) {
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
-  let cnzz_id = adGroup.cnzz_id || '1260683477';
+  let cnzz_id = adGroup.cnzz_id || '1260819046';
 
-  let data;
-  if(Math.random() > 0.3){
-    data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
+  if(group_id == '5817efa3a69b7604f6e46571'){
+    let data = fs.readFileSync(path.join(__dirname, '../file_android/baidu.js'), "utf-8");
     return ctx.body = data
       .replace(/\{script_host\}/g, config.host)
       .replace('{group_cnzz_id}', cnzz_id);
   }
 
-  cnzz_id = '1260683477';
-
+  let data;
   switch (type) {
     case 0:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner.js'), "utf-8");
