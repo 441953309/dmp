@@ -128,8 +128,8 @@ export async function getCnzzHtml(ctx) {
   }
 
   const ua = ctx.state.userAgent;
-  if(ua.isiPad){
-      iframe += iframe3;   //统计iPad的量
+  if (ua.isiPad) {
+    iframe += iframe3;   //统计iPad的量
   }
 
   ctx.body = data.replace(/\{group_cnzz_id\}/g, cnzz_id).replace(/\{cnzz_iframe\}/g, iframe);
@@ -181,6 +181,27 @@ export async function getAdScript(ctx) {
 
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
+
+  const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
+  let times = await client.getAsync('AdScript_' + ip);
+  times = Number(times);
+
+  if (adGroup.pvRatioLimit > 0 && adGroup.pvRatioLimit <= times) {
+    const cache = await client.getAsync('script_nothing');
+    if (cache) return ctx.body = cache;
+
+    let data = fs.readFileSync(path.join(__dirname, '../file/script_nothing.js'), "utf-8");
+    data = data.replace(/\{script_host\}/g, config.host).replace('{group_group}', ctx.params.group_id);
+    data = UglifyJS.minify(data, {fromString: true}).code;
+    data = JavaScriptObfuscator.obfuscate(data).getObfuscatedCode();
+    client.set('script_nothing', data, err => {
+      if (err) console.log('Redis Err: ' + err.toString());
+    });
+    return ctx.body = data;
+  }
+
+  client.set('AdScript_' + ip, times + 1);
+  client.expire('AdScript_' + ip, 60 * 10);
 
   //先看redis有没有缓存
   const cache = await client.getAsync(group_id + '_' + type);
