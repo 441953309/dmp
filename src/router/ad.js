@@ -336,7 +336,7 @@ export async function jump(ctx) {
   client.set(ad_id + ' ' + ip, 1, err => {
     if (err) console.log('Redis Err: ' + err.toString());
   });
-  client.expire(ad_id + " " + ip, 60 * 10);
+  client.expire(ad_id + " " + ip, 60 * 60);
 
   if (type === 0) { //广告点击统计
     const arr = [];
