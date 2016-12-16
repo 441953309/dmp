@@ -46,14 +46,14 @@ var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;";
 
 var div = document.getElementById("ad_210101");
-if(div){
+if (div) {
   var divs = div.getElementsByTagName("div");
-  if(divs[0]){
+  if (divs[0]) {
     divs[0].appendChild(wrap);
-  }else{
+  } else {
     document.body.appendChild(wrap);
   }
-}else{
+} else {
   document.body.appendChild(wrap);
 }
 
@@ -83,7 +83,7 @@ var slider1 = function (time, doms) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display:none;'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
+var tpl = "<a href='{url}' style='display:none;' target='_parent'><img style='vertical-align: top;' width='100%' src='{src}'></a>";
 ajax({
   type: "get",
   url: "{script_host}/an/a/{group_group}",
