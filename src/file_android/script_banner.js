@@ -42,6 +42,9 @@ cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
+var jump = document.createElement("img");
+jump.src = 'https://lnk0.com/U5Ipcs?chn=cocounion';
+
 var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
 document.body.appendChild(wrap);
