@@ -165,17 +165,15 @@ export async function getAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
-  //优酷d3服务器20%量分到 d2
-  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.8) {
-    return ctx.redirect(`http://d2.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
-  }
-  //优酷d3服务器20%量分到 d4
-  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.8) {
-    return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
-  }
-  //优酷d3服务器20%量分到 d1
-  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.8) {
-    return ctx.redirect(`http://d1.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+  //优酷d3服务器50%量分到 d2, d4, d1
+  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.5) {
+    if(Math.random() > 0.3){
+      return ctx.redirect(`http://d2.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+    }else if(Math.random() > 0.5){
+      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+    }else{
+      return ctx.redirect(`http://d1.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+    }
   }
 
   const ua = ctx.state.userAgent;
