@@ -181,7 +181,7 @@ export async function getAdScript(ctx) {
     if (group_id == '5843cf46256899bc460ba241') {//如果是58IOS
       return ctx.redirect(`http://da1.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android
     } else if (group_id == '58453594256899bc460ba242') {
-      return ctx.redirect(`http://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
+      return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
     } else {
       return ctx.body = ' ';
     }
