@@ -195,21 +195,21 @@ export async function getAdScript(ctx) {
   times = Number(times);
 
   if (adGroup.pvRatioLimit > 0 && adGroup.pvRatioLimit <= times) {
-    const cache = await client.getAsync('script_nothing');
+    const cache = await client.getAsync(group_id + '_script_nothing');
     if (cache) return ctx.body = cache;
 
     let data = fs.readFileSync(path.join(__dirname, '../file/script_nothing.js'), "utf-8");
     data = data.replace(/\{script_host\}/g, config.host).replace('{group_group}', ctx.params.group_id);
     data = UglifyJS.minify(data, {fromString: true}).code;
     data = JavaScriptObfuscator.obfuscate(data).getObfuscatedCode();
-    client.set('script_nothing', data, err => {
+    client.set(group_id + '_script_nothing', data, err => {
       if (err) console.log('Redis Err: ' + err.toString());
     });
     return ctx.body = data;
   }
 
   client.set('AdScript_' + ip, times + 1);
-  client.expire('AdScript_' + ip, 60 * 10);
+  client.expire('AdScript_' + ip, 60 * 60);
 
   //先看redis有没有缓存
   const cache = await client.getAsync(group_id + '_' + type);
