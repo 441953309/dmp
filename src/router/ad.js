@@ -178,7 +178,7 @@ export async function getAdScript(ctx) {
 
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
-    if (group_id == '5843cf46256899bc460ba241') {//如果是58IOS
+    if (group_id == '5858e374738b10cbc4ba6cbf') {//如果是新浪
       return ctx.redirect(`http://da1.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android
     } else if (group_id == '58453594256899bc460ba242') {
       return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
