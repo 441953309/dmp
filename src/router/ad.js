@@ -42,7 +42,7 @@ export async function getAdDemo(ctx) {
     return ctx.body = '请使用iPhone查看Demo';
   }
 
-  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const types = ['b', 't', 'i', 'm', 'x', 'f']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
 
@@ -63,6 +63,9 @@ export async function getAdDemo(ctx) {
       break;
     case 4:
       data = data.replace('{demo_type_title}', '文字链广告位demo');
+      break;
+    case 5:
+      data = data.replace('{demo_type_title}', '图文信息流广告位demo');
       break;
   }
 
@@ -147,7 +150,7 @@ export async function getAdHtml(ctx) {
     return ctx.body = '请使用iPhone查看';
   }
 
-  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const types = ['b', 't', 'i', 'm', 'x', 'f']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
 
@@ -160,7 +163,7 @@ export async function getAdHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const types = ['b', 't', 'i', 'm', 'x', 'f']; //b: bottom, t: top, i: inline, m: mini, x: txt, f: flow
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
@@ -244,6 +247,9 @@ export async function getAdScript(ctx) {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_txt.js'), "utf-8");
       }
       break;
+    case 5:
+      data = fs.readFileSync(path.join(__dirname, '../file/script_banner_flow.js'), "utf-8");
+      break;
     default:
       data = fs.readFileSync(path.join(__dirname, '../file/script_banner.js'), "utf-8");
       break;
@@ -300,8 +306,9 @@ export async function getAdGroup(ctx) {
       const info = {};
       if (ad.isS) {  //广告显示才需要图片和点击地址
         info.txt = ad.title;
+        info.txt2 = ad.title2;
         info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
-        info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_m.png`;
+        info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_s.png`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
       if (ad.isA) {  //广告自动点击才需要自动点击地址
