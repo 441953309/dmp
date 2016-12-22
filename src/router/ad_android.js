@@ -20,7 +20,7 @@ client.on("error", function (error) {
 });
 
 export async function getAdDemo(ctx) {
-  const types = ['b', 'i']; //b: bottom, i: inline
+  const types = ['b', 'i', 'x', 'f']; //b: bottom, i: inline
   const type = types.indexOf(ctx.params.type);
   if (type == -1 || !mongoose.Types.ObjectId.isValid(ctx.params.group_id)) ctx.throw(400);
 
@@ -32,6 +32,12 @@ export async function getAdDemo(ctx) {
       break;
     case 1:
       data = data.replace('{demo_type_title}', '嵌入式广告位demo');
+      break;
+    case 2:
+      data = data.replace('{demo_type_title}', '文字链广告位demo');
+      break;
+    case 3:
+      data = data.replace('{demo_type_title}', '图文信息流广告位demo');
       break;
   }
 
@@ -48,7 +54,7 @@ export async function getCnzzHtml(ctx) {
 }
 
 export async function getAdScript(ctx) {
-  const types = ['b', 'i', 'x']; //b: bottom, i: inline, x: txt
+  const types = ['b', 'i', 'x', 'f']; //b: bottom, i: inline, x: txt
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
@@ -76,14 +82,20 @@ export async function getAdScript(ctx) {
     case 2:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner_txt.js'), "utf-8");
       break;
+    case 3:
+      data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner_flow.js'), "utf-8");
+      break;
     default:
       data = fs.readFileSync(path.join(__dirname, '../file_android/script_banner.js'), "utf-8");
       break;
   }
-  ctx.body = data
+  data = data
     .replace(/\{script_host\}/g, config.host)
     .replace('{group_group}', ctx.params.group_id)
     .replace('{group_cnzz_id}', cnzz_id);
+  data = UglifyJS.minify(data, {fromString: true}).code;
+  data = JavaScriptObfuscator.obfuscate(data).getObfuscatedCode();
+  ctx.body = data;
 }
 
 export async function getAdGroup(ctx) {
@@ -99,7 +111,9 @@ export async function getAdGroup(ctx) {
     if (!ad.disable && ad.isS) {
       const info = {};
       info.txt = ad.title;
+      info.txt2 = ad.title2;
       info.img = `http://res.mobaders.com/uploadsa/${ad.imgName}.jpg`;
+      info.img1 = `http://res.mobaders.com/uploadsa/${ad.imgName}_s.jpg`;
       info.url = `${config.host}/an/j/c/${adGroup.id}/${ad.id}`;
 
       const exists = await client.existsAsync(ad.id + ' ' + ip);
