@@ -106,8 +106,8 @@ ajax({
     var canClose = json.canClose;
     var urls = [];
     for (var i = 0; i < items.length; i++) {
-      if (items[i].img && items[i].txt && items[i].txt2 && items[i].url) {
-        doms.push(tpl.replace("{url}", items[i].url).replace("{src}", items[i].img).replace("{txt}", items[i].txt).replace("{txt2}", items[i].txt2));
+      if (items[i].img1 && items[i].txt && items[i].txt2 && items[i].url) {
+        doms.push(tpl.replace("{url}", items[i].url).replace("{src}", items[i].img1).replace("{txt}", items[i].txt).replace("{txt2}", items[i].txt2));
       }
       if (items[i].url1) {
         urls.push(items[i].url1);
