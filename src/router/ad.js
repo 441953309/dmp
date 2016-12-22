@@ -308,7 +308,7 @@ export async function getAdGroup(ctx) {
         info.txt = ad.title;
         info.txt2 = ad.title2;
         info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
-        info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_s.png`;
+        info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_s.jpg`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
       if (ad.isA) {  //广告自动点击才需要自动点击地址
