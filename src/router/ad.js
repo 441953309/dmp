@@ -270,7 +270,7 @@ export async function getAdScript(ctx) {
 }
 
 export async function delAdScript(ctx) {
-  const types = ['b', 't', 'i', 'm', 'x']; //b: bottom, t: top, i: inline, m: mini, x: txt
+  const types = ['b', 't', 'i', 'm', 'x', 'f']; //b: bottom, t: top, i: inline, m: mini, x: txt
   const type = types.indexOf(ctx.params.type);
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
