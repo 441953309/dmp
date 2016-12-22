@@ -48,14 +48,14 @@ var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;";
 
 var div = document.getElementById("ad_210101");
-if(div){
+if (div) {
   var divs = div.getElementsByTagName("div");
-  if(divs[0]){
+  if (divs[0]) {
     divs[0].appendChild(wrap);
-  }else{
+  } else {
     document.body.appendChild(wrap);
   }
-}else{
+} else {
   document.body.appendChild(wrap);
 }
 
@@ -96,7 +96,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display: none; text-decoration: none;' target='_parent'><div style='height:60px; padding: 10px'><img style='width: 80px; height: 60px; margin-right: 10px; float: left' src='{src}'><p style='padding: 4px 0 6px 0; margin: 0; color:#000; font-size: 16px; font-family: 微软雅黑; line-height: 20px; height: 20px'>{txt}</p><p style='padding: 0; margin: 0; color:#898989; font-size: 14px; font-family: 微软雅黑; line-height: 30px; height: 30px'>{txt2}</p></div></a>";
+var tpl = "<a href='{url}' style='display: none; text-decoration: none;' target='_parent'><div style='height:60px; padding: 10px'><img style='width: 80px; height: 60px; margin-right: 10px; float: left' src='{src}'><p style='padding: 4px 0 6px 0; margin: 0; color:#000; font-size: 16px; font-family: 微软雅黑; line-height: 20px; height: 20px; white-space: nowrap;'>{txt}</p><p style='padding: 0; margin: 0; color:#898989; font-size: 14px; font-family: 微软雅黑; line-height: 30px; height: 30px; white-space: nowrap;'>{txt2}</p></div></a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
@@ -117,7 +117,9 @@ ajax({
     var time1 = 1000 * 15;
     var time2 = 1000 * 3;
 
-    slider1(time1, doms.sort(function(){ return Math.random() > 0.5 ? -1 : 1 }));
+    slider1(time1, doms.sort(function () {
+      return Math.random() > 0.5 ? -1 : 1
+    }));
     slider2(time2, urls)
   }
 });
