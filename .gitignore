@@ -4,3 +4,4 @@ npm-debug.log
 /.idea
 /src/config/index.js
 /bins/cert/mobaders.crt
+/bins/cert/mobaders.key
