@@ -54,7 +54,7 @@ title.innerText = "应用推荐";
 wrap.appendChild(title);
 
 var btn = document.createElement("div");
-btn.style.cssText = "position:absolute;right:0px;top:-19px;width:48px;height:19px;background:url('http://res.mobaders.com/images/close.png') no-repeat 0 0";
+btn.style.cssText = "position:absolute;right:0px;top:-19px;width:48px;height:19px;background:url('https://mobaders.oss-cn-beijing.aliyuncs.com/images/close.png') no-repeat 0 0";
 btn.onclick = function () {
   wrap.style.display = "none";
 }

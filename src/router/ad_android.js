@@ -115,8 +115,8 @@ export async function getAdGroup(ctx) {
       const info = {};
       info.txt = ad.title;
       info.txt2 = ad.title2;
-      info.img = `http://res.mobaders.com/uploadsa/${ad.imgName}.jpg`;
-      info.img1 = `http://res.mobaders.com/uploadsa/${ad.imgName}_s.jpg`;
+      info.img = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploadsa/${ad.imgName}.jpg`;
+      info.img1 = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploadsa/${ad.imgName}_s.jpg`;
       info.url = `${config.host}/an/j/c/${adGroup.id}/${ad.id}`;
 
       const exists = await client.existsAsync(ad.id + ' ' + ip);

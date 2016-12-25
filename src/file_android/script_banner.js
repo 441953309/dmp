@@ -47,7 +47,7 @@ wrap.style.cssText = "width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
 document.body.appendChild(wrap);
 
 var btn = document.createElement("div");
-btn.style.cssText = "position:absolute;right:0px;top:-19px;width:48px;height:19px;background:url('http://res.mobaders.com/images/close.png') no-repeat 0 0";
+btn.style.cssText = "position:absolute;right:0px;top:-19px;width:48px;height:19px;background:url('https://mobaders.oss-cn-beijing.aliyuncs.com/images/close.png') no-repeat 0 0";
 btn.onclick = function () {
   wrap.style.display = "none";
 }

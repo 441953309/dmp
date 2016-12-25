@@ -309,8 +309,8 @@ export async function getAdGroup(ctx) {
       if (ad.isS) {  //广告显示才需要图片和点击地址
         info.txt = ad.title;
         info.txt2 = ad.title2;
-        info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
-        info.img1 = `http://res.mobaders.com/uploads/${ad.imgName}_s.jpg`;
+        info.img = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}.jpg`;
+        info.img1 = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}_s.jpg`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
       if (ad.isA) {  //广告自动点击才需要自动点击地址
@@ -394,7 +394,7 @@ export async function apiAdGroup(ctx) {
     const ad = ads[i];
     if (ad.isS && ad.isA) {
       const info = {};
-      info.img = `http://res.mobaders.com/uploads/${ad.imgName}.jpg`;
+      info.img = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}.jpg`;
       info.clkmonurl = `${config.host}/core/j/c/${adGroup.id}/${ad.id}`;
       info.impmonurl = `${config.host}/core/j/a/${adGroup.id}/${ad.id}`;
 
