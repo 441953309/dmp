@@ -17,8 +17,7 @@ var port = normalizePort(process.env.PORT || '8080');
 
 var options = {
   key: fs.readFileSync(__dirname + '/cert/mobaders.key'),
-  cert: fs.readFileSync(__dirname + '/cert/mobaders.crt'),
-  passphrase: '2283250'
+  cert: fs.readFileSync(__dirname + '/cert/mobaders.crt')
 };
 
 /**
