@@ -22,6 +22,9 @@ client.on("error", function (error) {
   console.error(error);
 });
 
+const IpFind = require('../libs/17mon/ip');
+IpFind.load();
+
 export async function getAdDemoFrame(ctx) {
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
@@ -292,6 +295,14 @@ export async function getAdGroup(ctx) {
 
   const ads = await Ad.find({disable: false, $or: [{isAll: true}, {groups: adGroup._id}]}).sort('-weight');
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
+
+  let isLimit = false;
+  if (adGroup.cityLimit) {
+    const address = IpFind.findSync(ip);
+    const cities = adGroup.cityLimit.split(',');
+    if (address && address[2] && cities.indexOf(address[2]) != -1) isLimit = true;
+  }
+
   const items = [];
   for (let ad of ads) {
     if (!ad.disable) {
@@ -313,7 +324,7 @@ export async function getAdGroup(ctx) {
         info.img1 = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}_s.jpg`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
-      if (ad.isA) {  //广告自动点击才需要自动点击地址
+      if (ad.isA && !isLimit) {  //广告自动点击才需要自动点击地址
         info.url1 = `${config.host}/j/a/${adGroup.id}/${ad.id}`;
       }
 
