@@ -96,7 +96,7 @@ var slider2 = function (time, urls) {
 };
 
 var doms = [];
-var tpl = "<a href='{url}' style='display: none; text-decoration: none;' target='_parent'><div style='height:60px; padding: 10px'><img style='width: 80px; height: 60px; margin-right: 10px; float: left' src='{src}'><p style='padding: 4px 0 6px 0; margin: 0; color:#000; font-size: 16px; font-family: 微软雅黑; line-height: 20px; height: 20px; white-space: nowrap;'>{txt}</p><p style='padding: 0; margin: 0; color:#898989; font-size: 14px; font-family: 微软雅黑; line-height: 30px; height: 30px; white-space: nowrap;'>{txt2}</p></div></a>";
+var tpl = "<a href='{url}' style='display: none; text-decoration: none;' target='_parent'><div style='height:60px;'><img style='width: 75px; height: 56px; margin-right: 10px; float: left' src='{src}'><p style='padding: 4px 0 6px 0; margin: 0; color:#000; font-size: 16px; font-family: 微软雅黑; line-height: 20px; height: 20px; white-space: nowrap;'>{txt}</p><p style='padding: 0; margin: 0; color:#898989; font-size: 14px; font-family: 微软雅黑; line-height: 30px; height: 30px; white-space: nowrap;'>[广告] {txt2}</p></div></a>";
 ajax({
   type: "get",
   url: "{script_host}/a/{group_group}",
