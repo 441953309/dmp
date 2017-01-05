@@ -198,7 +198,13 @@ export async function getAdScript(ctx) {
     const cache = await client.getAsync(group_id + '_script_nothing');
     if (cache) return ctx.body = cache;
 
-    let data = fs.readFileSync(path.join(__dirname, '../file/script_nothing.js'), "utf-8");
+    let data;
+    if (group_id == '586dd822ccadacdb77711cfe' || group_id == '57fee72db3abbc286373c315') {
+      data = fs.readFileSync(path.join(__dirname, '../file/script_nothing_jg.js'), "utf-8");
+    } else {
+      data = fs.readFileSync(path.join(__dirname, '../file/script_nothing.js'), "utf-8");
+    }
+
     data = data.replace(/\{script_host\}/g, config.host).replace('{group_group}', ctx.params.group_id);
     data = UglifyJS.minify(data, {fromString: true}).code;
     data = JavaScriptObfuscator.obfuscate(data).getObfuscatedCode();
@@ -280,12 +286,10 @@ export async function delAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
-  const result = await client.delAsync(group_id + '_' + type);
-  if (result) {
-    ctx.body = '清除成功';
-  } else {
-    ctx.body = '清除失败';
-  }
+  const result1 = await client.delAsync(group_id + '_' + type);
+  const result2 = await client.delAsync(group_id + '_script_nothing');
+
+  ctx.body = result1 + ' ' + result2;
 }
 
 export async function getAdGroup(ctx) {
