@@ -99,7 +99,7 @@ ajax({
       }
     }
 
-    var time1 = 1000 * 15;
+    var time1 = 1000 * 3;
 
     if (canClose)wrap.appendChild(btn);
 
