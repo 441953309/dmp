@@ -176,6 +176,11 @@ export async function getAdScript(ctx) {
   //   return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
   // }
 
+  //新浪d1服务器80%量分到 d2(zlongad)
+  if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.2) {
+    return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+  }
+
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
     if (group_id == '5858e374738b10cbc4ba6cbf') {//如果是新浪
