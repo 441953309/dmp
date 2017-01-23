@@ -172,9 +172,9 @@ export async function getAdScript(ctx) {
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
   //优酷d3服务器40%量分到 d4
-  if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
-    return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
-  }
+  // if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
+  //   return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+  // }
 
   // 新浪d1服务器80%量分到 d2(zlongad)
   // if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.2) {
