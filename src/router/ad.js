@@ -355,6 +355,9 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
   if (!mongoose.Types.ObjectId.isValid(ad_id)) ctx.throw(400);
 
+  const adGroup = await AdGroup.findById(group_id);
+  if (!adGroup) ctx.throw(400);
+
   let urls = await AdUrl.find({adId: ad_id, disable: false});
   if (urls.length == 0) {
     let ad = await Ad.findById(ad_id);
@@ -378,7 +381,12 @@ export async function jump(ctx) {
         }
       }
     }
-    const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+    const adUrl = urls[arr[Math.floor(Math.random() * arr.length)]];
+    let url = adUrl.url;
+    if (url && adUrl.param1) {
+      url = url + adUrl.param1 + adGroup.weight;
+    }
+
     ctx.redirect(url);
     ClickRecord.create({group_id, ad_id, ip, auto: false});
   } else if (type === 1) {//广告自动点击统计
@@ -388,7 +396,12 @@ export async function jump(ctx) {
         arr.push(i);
       }
     }
-    const url = urls[arr[Math.floor(Math.random() * arr.length)]].url;
+    const adUrl = urls[arr[Math.floor(Math.random() * arr.length)]];
+    let url = adUrl.url;
+    if (url && adUrl.param1) {
+      url = url + adUrl.param1 + adGroup.weight;
+    }
+
     if (url) {
       ctx.redirect(url);
     } else {
