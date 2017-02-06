@@ -171,6 +171,13 @@ export async function getAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
+  if(config.name == 'dmp3'){
+    //优酷d3服务器50%量分到 d5
+    if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.5) {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
+    }
+  }
+
   //优酷d3服务器40%量分到 d4
   // if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
   //   return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
