@@ -192,7 +192,7 @@ export async function getAdScript(ctx) {
 
   if(config.name == 'dmp1'){
     //d1服务器的(太平洋) 直接分到d5
-    if (group_id == '582d2a6578405d309d4a1650' && Math.random() > 0.5) {
+    if (group_id == '582d2a6578405d309d4a1650') {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/582d2a6578405d309d4a1650`);
     }
   }
