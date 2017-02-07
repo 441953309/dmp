@@ -178,6 +178,13 @@ export async function getAdScript(ctx) {
     }
   }
 
+  if(config.name == 'dmp2'){
+    //d2服务器的(乐视) 直接分到d4
+    if (group_id == '580ef81138f11fd18af5e26a') {
+      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/580ef81138f11fd18af5e26a`);
+    }
+  }
+
   //优酷d3服务器40%量分到 d4
   // if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.6) {
   //   return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
