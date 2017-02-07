@@ -183,14 +183,14 @@ export async function getAdScript(ctx) {
   }
 
 
-  if(config.name == 'dmp3'){
+  if (config.name == 'dmp3') {
     //优酷d3服务器50%量分到 d5
     if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.5) {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
     }
   }
 
-  if(config.name == 'dmp2'){
+  if (config.name == 'dmp2') {
     //d2服务器的(优酷PAD) 直接分到d4
     if (group_id == '5805d559d40a6b8cfd870757') {
       return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5805d559d40a6b8cfd870757`);
@@ -202,17 +202,21 @@ export async function getAdScript(ctx) {
     }
   }
 
-  if(config.name == 'dmp1'){
+  if (config.name == 'dmp1') {
     //d1服务器的(太平洋) 直接分到d5
     if (group_id == '582d2a6578405d309d4a1650') {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/582d2a6578405d309d4a1650`);
     }
   }
 
-  if(config.name == 'zl1'){
-    // zl1服务器(新浪) 分到zl2
+  if (config.name == 'zl1') {
+    // zl1服务器(新浪) 分到zl2 和 zl3
     if (group_id == '5858e374738b10cbc4ba6cbf') {
-      return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+      if (Math.random() > 0.4) {
+        return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+      } else {
+        return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+      }
     }
 
     // zl1服务器(天涯) 分到zl3
