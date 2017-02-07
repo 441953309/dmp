@@ -62,6 +62,13 @@ export async function getAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
+  if(config.name == 'da2'){
+    //新浪Android d2 服务器 30%的量 分到 da1
+    if (group_id == '5843d053b3309f107f546bf6' && Math.random() > 0.7) {
+      return ctx.redirect(`http://da1.mobaders.com/s/${types[type]}/5843d053b3309f107f546bf6`);
+    }
+  }
+
   const adGroup = await AdGroup.findById(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
