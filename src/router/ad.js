@@ -179,9 +179,9 @@ export async function getAdScript(ctx) {
   }
 
   if(config.name == 'dmp2'){
-    //d2服务器的(乐视) 直接分到d4
-    if (group_id == '580ef81138f11fd18af5e26a') {
-      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/580ef81138f11fd18af5e26a`);
+    //d2服务器的(优酷PAD) 直接分到d4
+    if (group_id == '5805d559d40a6b8cfd870757') {
+      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5805d559d40a6b8cfd870757`);
     }
   }
 
