@@ -198,10 +198,16 @@ export async function getAdScript(ctx) {
   }
 
   if(config.name == 'zl1'){
-    // zl1服务器(新浪) 分到zl2和zl3
+    // zl1服务器(新浪) 分到zl2
     if (group_id == '5858e374738b10cbc4ba6cbf') {
       return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
     }
+
+    // zl1服务器(天涯) 分到zl3
+    if (group_id == '58635c4256514094554beb88') {
+      return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/58635c4256514094554beb88`);
+    }
+
   }
 
   const ua = ctx.state.userAgent;
