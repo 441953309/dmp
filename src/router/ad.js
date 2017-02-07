@@ -171,6 +171,18 @@ export async function getAdScript(ctx) {
   const group_id = ctx.params.group_id;
   if (type == -1 || !mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
 
+  const ua = ctx.state.userAgent;
+  if (!ua.isiPhone && !ua.isiPad) {
+    if (group_id == '5858e374738b10cbc4ba6cbf') {//如果是新浪
+      return ctx.redirect(`https://da2.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android(da2)
+    } else if (group_id == '58453594256899bc460ba242') {
+      return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
+    } else {
+      return ctx.body = ' ';
+    }
+  }
+
+
   if(config.name == 'dmp3'){
     //优酷d3服务器50%量分到 d5
     if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.5) {
@@ -208,17 +220,6 @@ export async function getAdScript(ctx) {
       return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/58635c4256514094554beb88`);
     }
 
-  }
-
-  const ua = ctx.state.userAgent;
-  if (!ua.isiPhone && !ua.isiPad) {
-    if (group_id == '5858e374738b10cbc4ba6cbf') {//如果是新浪
-      return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android
-    } else if (group_id == '58453594256899bc460ba242') {
-      return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
-    } else {
-      return ctx.body = ' ';
-    }
   }
 
   const adGroup = await AdGroup.findById(group_id);
