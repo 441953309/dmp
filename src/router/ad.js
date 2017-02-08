@@ -184,8 +184,8 @@ export async function getAdScript(ctx) {
 
 
   if (config.name == 'dmp3') {
-    //优酷d3服务器50%量分到 d5
-    if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.5) {
+    //优酷d3服务器60%量分到 d5
+    if (group_id == '5806ed00d40a6b8cfd87075d' && Math.random() > 0.4) {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5806ed00d40a6b8cfd87075d`);
     }
   }
@@ -226,7 +226,7 @@ export async function getAdScript(ctx) {
 
   }
 
-  const adGroup = await AdGroup.findById(group_id);
+  const adGroup = await findAdGroup(group_id);
   if (!adGroup || adGroup.disable) ctx.throw(400);//判断组是否存在且未禁用
 
   const ip = ctx.get("X-Real-IP") || ctx.get("X-Forwarded-For") || ctx.ip.replace('::ffff:', '');
@@ -389,7 +389,7 @@ export async function jump(ctx) {
   if (!mongoose.Types.ObjectId.isValid(group_id)) ctx.throw(400);
   if (!mongoose.Types.ObjectId.isValid(ad_id)) ctx.throw(400);
 
-  const adGroup = await AdGroup.findById(group_id);
+  const adGroup = await findAdGroup(group_id);
   if (!adGroup) ctx.throw(400);
 
   let urls = await AdUrl.find({adId: ad_id, disable: false});
@@ -548,4 +548,19 @@ export async function apiJump(ctx) {
     client.expire(ad_id + " " + ip, 60 * 10);
   }
 
+}
+
+async function findAdGroup(group_id){
+  if(!mongoose.Types.ObjectId.isValid(group_id)) return;
+
+  const cache = await client.getAsync('adGroup_' + group_id);
+  if (cache) return JSON.parse(cache);
+
+  const adGroup = await AdGroup.findById(group_id);
+  if(!adGroup) return;
+
+  client.set('adGroup_' + adGroup.id, JSON.stringify(adGroup));
+  client.expire('adGroup_' + adGroup.id, 60 * 10);
+
+  return adGroup;
 }
