@@ -191,14 +191,14 @@ export async function getAdScript(ctx) {
   }
 
   if (config.name == 'dmp2') {
-    //d2服务器的(优酷PAD) 直接分到d4
+    //d2服务器的(优酷PAD) 直接分到d5
     if (group_id == '5805d559d40a6b8cfd870757') {
-      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5805d559d40a6b8cfd870757`);
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5805d559d40a6b8cfd870757`);
     }
 
-    //d2服务器的(凤凰网) 直接分到d5
+    //d2服务器的(凤凰网) 直接分到d4
     if (group_id == '58229f7fcd7cd931817446eb') {
-      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/58229f7fcd7cd931817446eb`);
+      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/58229f7fcd7cd931817446eb`);
     }
   }
 
@@ -206,6 +206,18 @@ export async function getAdScript(ctx) {
     //d1服务器的(太平洋) 直接分到d5
     if (group_id == '582d2a6578405d309d4a1650') {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/582d2a6578405d309d4a1650`);
+    }
+    //d1服务器的(江苏电信) 直接分到d5
+    if (group_id == '5858fe87fc178ca14183f216') {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5858fe87fc178ca14183f216`);
+    }
+    //d1服务器的(话语) 直接分到d5
+    if (group_id == '5819813bcd7cd931817446af') {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5819813bcd7cd931817446af`);
+    }
+    //d1服务器的(谭军) 直接分到d5
+    if (group_id == '5858b94bfc178ca14183f207') {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5858b94bfc178ca14183f207`);
     }
   }
 
