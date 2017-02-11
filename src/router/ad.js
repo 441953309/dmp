@@ -404,14 +404,14 @@ export async function jump(ctx) {
   const adGroup = await findAdGroup(group_id);
   if (!adGroup) ctx.throw(400);
 
-  let urls = await AdUrl.find({adId: ad_id, disable: false});
-  if (urls.length == 0) {
+  let urls = await findAdUrls(ad_id);
+  if (!urls) {
     let ad = await Ad.findById(ad_id);
     ad = await Ad.findOne({name: ad.name, disable: false})
-    urls = await AdUrl.find({adId: ad.id, disable: false});
+    urls = await findAdUrls(ad_id);
     console.log('重新查找: ' + ad.name);
   }
-  if (urls.length == 0) ctx.throw(400);
+  if (!urls) ctx.throw(400);
 
   client.set(ad_id + ' ' + ip, 1, err => {
     if (err) console.log('Redis Err: ' + err.toString());
@@ -575,4 +575,20 @@ async function findAdGroup(group_id){
   client.expire('adGroup_' + adGroup.id, 60 * 10);
 
   return adGroup;
+}
+
+async function findAdUrls(ad_id){
+  if(!mongoose.Types.ObjectId.isValid(ad_id)) return;
+
+  const cache = await client.getAsync('adUrls_' + ad_id);
+  if (cache) return JSON.parse(cache);
+
+  console.log('查询一下');
+  const urls = await AdUrl.find({adId: ad_id, disable: false});
+  if(urls.length == 0) return;
+
+  client.set('adUrls_' + ad_id, JSON.stringify(urls));
+  client.expire('adUrls_' + ad_id, 60 * 10);
+
+  return urls;
 }
