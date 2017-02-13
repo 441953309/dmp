@@ -231,9 +231,9 @@ export async function getAdScript(ctx) {
       }
     }
 
-    // zl1服务器(天涯) 分到zl3
+    // zl1服务器(天涯) 分到zl2
     if (group_id == '58635c4256514094554beb88') {
-      return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/58635c4256514094554beb88`);
+      return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/58635c4256514094554beb88`);
     }
 
   }

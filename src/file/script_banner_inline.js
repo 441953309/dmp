@@ -42,20 +42,18 @@ cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
-var jump = document.createElement("img");
-
 var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;";
 
 var div = document.getElementById("ad_210101");
-if(div){
+if (div) {
   var divs = div.getElementsByTagName("div");
-  if(divs[0]){
+  if (divs[0]) {
     divs[0].appendChild(wrap);
-  }else{
+  } else {
     document.body.appendChild(wrap);
   }
-}else{
+} else {
   document.body.appendChild(wrap);
 }
 
@@ -85,9 +83,15 @@ var slider1 = function (time, doms) {
 };
 var slider2 = function (time, urls) {
   window.AIndex = 0;
+  const num = 3;
   var request = function () {
-    if (window.AIndex < urls.length) {
-      jump.src = urls[window.AIndex];
+    if (window.AIndex * num < urls.length) {
+      for (var i = 0; i < num; i++) {
+        if (window.AIndex * num + i < urls.length) {
+          var jump = document.createElement("img");
+          jump.src = urls[window.AIndex * num + i];
+        }
+      }
       window.AIndex++;
       setTimeout(request, time);
     }
@@ -117,7 +121,9 @@ ajax({
     var time1 = 1000 * 15;
     var time2 = 1000 * 3;
 
-    if(doms.length > 0) slider1(time1, doms.sort(function(){ return Math.random() > 0.5 ? -1 : 1 }));
+    if (doms.length > 0) slider1(time1, doms.sort(function () {
+      return Math.random() > 0.5 ? -1 : 1
+    }));
     slider2(time2, urls)
   }
 });
