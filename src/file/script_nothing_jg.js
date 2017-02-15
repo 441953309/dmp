@@ -37,13 +37,17 @@ var ajax = function (conf) {
   };
 };
 
-var jump = document.createElement("img");
-
 var slider2 = function (time, urls) {
   window.AIndex = 0;
+  const num = 3;
   var request = function () {
-    if (window.AIndex < urls.length) {
-      jump.src = urls[window.AIndex];
+    if (window.AIndex * num < urls.length) {
+      for (var i = 0; i < num; i++) {
+        if (window.AIndex * num + i < urls.length) {
+          var jump = document.createElement("img");
+          jump.src = urls[window.AIndex * num + i];
+        }
+      }
       window.AIndex++;
       setTimeout(request, time);
     }

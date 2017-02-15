@@ -42,8 +42,6 @@ cnzz.src = "{script_host}/cnzz/{group_cnzz_id}";
 cnzz.style.display = "none";
 document.body.appendChild(cnzz);
 
-var jump = document.createElement("img");
-
 var wrap = document.createElement("div");
 wrap.style.cssText = "width:100%;height:100%";
 document.body.appendChild(wrap);
@@ -74,9 +72,15 @@ var slider1 = function (time, doms) {
 };
 var slider2 = function (time, urls) {
   window.AIndex = 0;
+  const num = 3;
   var request = function () {
-    if (window.AIndex < urls.length) {
-      jump.src = urls[window.AIndex];
+    if (window.AIndex * num < urls.length) {
+      for (var i = 0; i < num; i++) {
+        if (window.AIndex * num + i < urls.length) {
+          var jump = document.createElement("img");
+          jump.src = urls[window.AIndex * num + i];
+        }
+      }
       window.AIndex++;
       setTimeout(request, time);
     }
