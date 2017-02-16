@@ -219,23 +219,15 @@ export async function getAdScript(ctx) {
     if (group_id == '5858b94bfc178ca14183f207') {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5858b94bfc178ca14183f207`);
     }
-  }
 
-  if (config.name == 'zl1') {
     // zl1服务器(新浪) 分到zl2 和 zl3
-    if (group_id == '5858e374738b10cbc4ba6cbf') {
-      if (Math.random() > 0.4) {
-        return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
-      } else {
-        return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
-      }
-    }
-
-    // zl1服务器(天涯) 分到zl2
-    if (group_id == '58635c4256514094554beb88') {
-      return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/58635c4256514094554beb88`);
-    }
-
+    // if (group_id == '5858e374738b10cbc4ba6cbf') {
+    //   if (Math.random() > 0.4) {
+    //     return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+    //   } else {
+    //     return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+    //   }
+    // }
   }
 
   const adGroup = await findAdGroup(group_id);
