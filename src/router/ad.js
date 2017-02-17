@@ -174,7 +174,7 @@ export async function getAdScript(ctx) {
   const ua = ctx.state.userAgent;
   if (!ua.isiPhone && !ua.isiPad) {
     if (group_id == '5858e374738b10cbc4ba6cbf') {//如果是新浪
-      return ctx.redirect(`http://da2.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android(da2)
+      return ctx.redirect(`http://da1.mobaders.com/an/s/${types[type]}/5843d053b3309f107f546bf6`);//跳到58Android(da2)
     } else if (group_id == '58453594256899bc460ba242') {
       return ctx.redirect(`https://da1.mobaders.com/an/s/${types[type]}/585392547023486b58900793`);//跳到电商2
     } else {
@@ -182,6 +182,12 @@ export async function getAdScript(ctx) {
     }
   }
 
+  if(config.name == 'dmp6'){
+    // 新浪d6服务器 50%量分到d7
+    // if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.4) {
+    //   return ctx.redirect(`https://d7.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+    // }
+  }
 
   if (config.name == 'dmp3') {
     //优酷d3服务器60%量分到 d5
@@ -220,14 +226,15 @@ export async function getAdScript(ctx) {
       return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5858b94bfc178ca14183f207`);
     }
 
-    // zl1服务器(新浪) 分到zl2 和 zl3
-    // if (group_id == '5858e374738b10cbc4ba6cbf') {
-    //   if (Math.random() > 0.4) {
-    //     return ctx.redirect(`http://d2.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
-    //   } else {
-    //     return ctx.redirect(`http://d3.zlongad.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
-    //   }
-    // }
+    //d1服务器的(天涯) 直接分到d5
+    if (group_id == '58635c4256514094554beb88') {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/58635c4256514094554beb88`);
+    }
+
+    //d1服务器的(天涯2) 直接分到d5
+    if (group_id == '5878942a56514094554beb97') {
+      return ctx.redirect(`http://d5.mobaders.com/s/${types[type]}/5878942a56514094554beb97`);
+    }
   }
 
   const adGroup = await findAdGroup(group_id);
