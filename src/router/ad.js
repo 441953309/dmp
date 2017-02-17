@@ -399,6 +399,7 @@ export async function jump(ctx) {
   let urls = await findAdUrls(ad_id);
   if (!urls) {
     let ad = await Ad.findById(ad_id);
+    if(!ad) ctx.throw(400, 'jump_no_ad');
     ad = await Ad.findOne({name: ad.name, disable: false})
     urls = await findAdUrls(ad_id);
     console.log('重新查找: ' + ad.name);
