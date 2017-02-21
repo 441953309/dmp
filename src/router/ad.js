@@ -290,7 +290,7 @@ export async function getAdScript(ctx) {
     case 2:
       if (group_id == '580ef82a38f11fd18af5e26b' || group_id == '5857a07cfc178ca14183f1ff') {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_inline_60.js'), "utf-8");
-      } else if (group_id == '5819750acd7cd931817446ac') {
+      } else if (group_id == '5819750acd7cd931817446ac' || group_id == '5805d5b0d40a6b8cfd87075a') {//小白全网,互众2
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_inline2.js'), "utf-8");
       } else {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_inline.js'), "utf-8");
@@ -302,7 +302,7 @@ export async function getAdScript(ctx) {
     case 4:
       if (group_id == '58412d53256899bc460ba234') {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_txt_hq.js'), "utf-8");
-      } else if (group_id == '5819750acd7cd931817446ac' || group_id == '5805d5b0d40a6b8cfd87075a') {//小白全网,互众2
+      } else if (group_id == '5833a7f678405d309d4a166f') {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_txt_12.js'), "utf-8");
       } else {
         data = fs.readFileSync(path.join(__dirname, '../file/script_banner_txt.js'), "utf-8");
