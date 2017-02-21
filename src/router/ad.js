@@ -184,7 +184,7 @@ export async function getAdScript(ctx) {
 
   if(config.name == 'dmp6'){
     //新浪d6服务器 50%量分到d7
-    if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.5) {
+    if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.4) {
       return ctx.redirect(`https://d7.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
     }
   }
