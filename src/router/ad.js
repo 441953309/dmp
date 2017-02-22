@@ -182,10 +182,15 @@ export async function getAdScript(ctx) {
     }
   }
 
-  if(config.name == 'dmp6'){
+  if (config.name == 'dmp6') {
     //新浪d6服务器 50%量分到d7
-    if (group_id == '5858e374738b10cbc4ba6cbf' && Math.random() > 0.4) {
-      return ctx.redirect(`https://d7.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+    if (group_id == '5858e374738b10cbc4ba6cbf') {
+      let random = Math.random();
+      if (random > 0.9) { //10%分到d4, 走http
+        return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+      } else if (random > 0.4) { //50% 分到d7
+        return ctx.redirect(`https://d7.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
+      }
     }
   }
 
@@ -203,9 +208,9 @@ export async function getAdScript(ctx) {
     }
 
     //d2服务器的(凤凰网) 直接分到d4
-    if (group_id == '58229f7fcd7cd931817446eb') {
-      return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/58229f7fcd7cd931817446eb`);
-    }
+    // if (group_id == '58229f7fcd7cd931817446eb') {
+    //   return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/58229f7fcd7cd931817446eb`);
+    // }
   }
 
   if (config.name == 'dmp1') {
@@ -406,7 +411,7 @@ export async function jump(ctx) {
   let urls = await findAdUrls(ad_id);
   if (!urls) {
     let ad = await Ad.findById(ad_id);
-    if(!ad) ctx.throw(400, 'jump_no_ad');
+    if (!ad) ctx.throw(400, `jump_no_ad_${group_id}_${ad_id}`);
     ad = await Ad.findOne({name: ad.name, disable: false})
     urls = await findAdUrls(ad_id);
     console.log('重新查找: ' + ad.name);
@@ -562,14 +567,14 @@ export async function apiJump(ctx) {
 
 }
 
-async function findAdGroup(group_id){
-  if(!mongoose.Types.ObjectId.isValid(group_id)) return;
+async function findAdGroup(group_id) {
+  if (!mongoose.Types.ObjectId.isValid(group_id)) return;
 
   const cache = await client.getAsync('adGroup_' + group_id);
   if (cache) return JSON.parse(cache);
 
   const adGroup = await AdGroup.findById(group_id);
-  if(!adGroup) return;
+  if (!adGroup) return;
 
   client.set('adGroup_' + adGroup.id, JSON.stringify(adGroup));
   client.expire('adGroup_' + adGroup.id, 60 * 10);
@@ -577,15 +582,15 @@ async function findAdGroup(group_id){
   return adGroup;
 }
 
-async function findAdUrls(ad_id){
-  if(!mongoose.Types.ObjectId.isValid(ad_id)) return;
+async function findAdUrls(ad_id) {
+  if (!mongoose.Types.ObjectId.isValid(ad_id)) return;
 
   const cache = await client.getAsync('adUrls_' + ad_id);
   if (cache) return JSON.parse(cache);
 
   console.log('查询一下');
   const urls = await AdUrl.find({adId: ad_id, disable: false});
-  if(urls.length == 0) return;
+  if (urls.length == 0) return;
 
   client.set('adUrls_' + ad_id, JSON.stringify(urls));
   client.expire('adUrls_' + ad_id, 60 * 10);
