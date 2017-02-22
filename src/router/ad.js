@@ -186,9 +186,9 @@ export async function getAdScript(ctx) {
     //新浪d6服务器 50%量分到d7
     if (group_id == '5858e374738b10cbc4ba6cbf') {
       let random = Math.random();
-      if (random > 0.9) { //10%分到d4, 走http
+      if (random > 0.7) { //10%分到d4, 走http
         return ctx.redirect(`http://d4.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
-      } else if (random > 0.4) { //50% 分到d7
+      } else if (random > 0.3) { //50% 分到d7
         return ctx.redirect(`https://d7.mobaders.com/s/${types[type]}/5858e374738b10cbc4ba6cbf`);
       }
     }
