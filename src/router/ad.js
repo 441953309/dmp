@@ -380,7 +380,7 @@ export async function getAdGroup(ctx) {
         info.txt = ad.title;
         info.txt2 = ad.title2;
         info.img = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}.jpg`;
-        info.img1 = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}_s.jpg`;
+        // info.img1 = `https://mobaders.oss-cn-beijing.aliyuncs.com/uploads/${ad.imgName}_s.jpg`;
         info.url = `${config.host}/j/c/${adGroup.id}/${ad.id}`;
       }
       if (ad.isA && !isLimit) {  //广告自动点击才需要自动点击地址
